@@ -1,0 +1,55 @@
+{% set version = "1.6" %}
+
+package:
+  name: r-atlas-internal
+  version: {{ version }}
+
+source:
+  url: https://github.com/ebi-gene-expression-group/internal-ExpressionAtlas/archive/{{ version }}.tar.gz
+  sha256: 84be1c4d30dfcce2fbee60f72cec7f0432ba45e9a372c8fddd096d9d55b9f8d3
+
+build:
+  number: 0
+  skip: true # [win32]
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - make
+  host:
+    - r-xml
+    - r-yaml
+    - r-plyr
+    - r-base
+    - bioconductor-biobase
+    - bioconductor-biocgenerics
+    - bioconductor-genomicranges
+    - bioconductor-iranges
+    - bioconductor-limma
+    - bioconductor-summarizedexperiment
+  run:
+    - r-xml
+    - r-yaml
+    - r-plyr
+    - r-base
+    - bioconductor-biobase
+    - bioconductor-biocgenerics
+    - bioconductor-genomicranges
+    - bioconductor-iranges
+    - bioconductor-limma
+    - bioconductor-summarizedexperiment
+
+test:
+  commands:
+    - $R -e "library(ExpressionAtlasInternal)"
+
+about:
+  home: https://github.com/ebi-gene-expression-group/internal-ExpressionAtlas 
+  license: GPL-3
+  summary: A package exporting functions and classes used in the representation and analysis of EMBL-EBI Expression Atlas data. 
+  license_family: GPL3
+
