@@ -1,0 +1,29 @@
+{% set version = "0.0.1" %}
+
+package:
+  name: atlas-fastq-provider
+  version: {{ version }}
+
+source:
+  url: https://github.com/ebi-gene-expression-group/atlas-fastq-provider/archive/v{{ version }}.tar.gz
+  sha256: 08973d5558736b8ff089bb03fdaa8cfd909acdd86bd52e06487e4a7c4ceb3175
+
+build:
+  number: 0
+
+requirements:
+  build:
+  host:
+  run:
+    - bash
+
+test:
+  commands:
+    - fetchFastq.sh -h
+
+about:
+  home: https://github.com/ebi-gene-expression-group/atlas-fastq-provider
+  license: GPL-3
+  summary: A package to provide FASTQs via download or file system linking
+  license_family: GPL3
+
