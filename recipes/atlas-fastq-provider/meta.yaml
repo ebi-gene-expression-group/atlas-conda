@@ -1,4 +1,4 @@
-{% set version = "0.0.2" %}
+{% set version = "0.0.5" %}
 
 package:
   name: atlas-fastq-provider
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/atlas-fastq-provider/archive/v{{ version }}.tar.gz
-  sha256: 5b38e3c7805b43ea6adcf3bab5fd032fe9d9df4ddbbaf3b70cf9f9fca3e8599e
+  sha256: 2b832d73bb20da8f6c372319067489a22ddd1336727c4d0f0c069c55fa868870
 
 build:
   number: 0
