@@ -1,0 +1,45 @@
+{% set version = "0.0.1" %}
+
+package:
+  name: irap-bamutils
+  version: {{ version }}
+
+source:
+  url: https://github.com/ebi-gene-expression-group/irap/archive/conda-test.tar.gz 
+  sha256: bf3d0a35ffba3076465da9f6a7dc513ea2110f0708edd1640e659366ed304614 
+
+build:
+  number: 1
+  skip: true  # [win32]
+
+requirements:
+  build:
+      - {{ compiler('c') }}
+      - make
+      - zlib
+      - sqlite
+  host:
+      - samtools ==0.1.19
+      - zlib
+      - ncurses
+      - sqlite
+  run:
+      - zlib
+      - samtools ==1.9
+
+# Note: these tools unhelpfully return exit codes of 1, so can't use their -h
+# arguments for testing
+
+test:
+    commands:
+
+about:
+  home: https://github.com/nunofonseca/irap
+  dev_url: https://github.com/ebi-gene-expression-group/irap
+  license: GPL-3
+  summary: This is the bam utils library distributed as part of iRAP
+  license_family: GPL
+
+extra:
+  recipe-maintainers:
+    - pinin4fjords
