@@ -1,0 +1,114 @@
+{% set version = "0.1.2" %}
+
+package:
+  name: perl-atlas-modules
+  version: {{ version }}
+
+source:
+  url: https://github.com/ebi-gene-expression-group/perl-atlas-modules/archive/{{ version }}.tar.gz  
+  sha256: f1a63297c8325f750221977166ddb208e3a4073557245c1cfdb72b0941d31cb2
+  #git_url: https://github.com/ebi-gene-expression-group/perl-atlas-modules.git
+  #git_tag: feature/config_fixes
+
+# If this is a new build for the same version, increment the build
+# number. If you do not include this key, it defaults to 0.
+build:
+  number: 0
+
+requirements:
+  build:
+   - perl =5.26.2
+   - perl-list-util
+   - perl-list-moreutils
+   - perl-moose
+   - perl-log-log4perl
+   - perl-app-cpanminus
+   - perl-path-tiny
+   - perl-json-parse
+   - perl-data-dumper
+   - perl-array-compare
+   - perl-lwp-simple
+   - perl-datetime
+   - perl-xml-simple
+   - perl-tie-ixhash
+   - perl-readonly
+   - perl-carp
+   - perl-base
+   - perl-file-spec
+   - perl-dbi
+   - perl-dbd-pg
+   - perl-datetime-format-strptime
+   - perl-text-csv
+   - perl-json
+   - perl-xml-simple
+   - perl-xml-parser
+   - perl-xml-writer
+   - perl-ipc-cmd
+   - perl-datetime
+   - perl-data-compare
+   - {{ compiler('c') }}
+   - {{ compiler('cxx') }}
+
+
+  host:
+   - perl =5.26.2
+   - perl-app-cpanminus
+
+  run:
+    - perl =5.26.2
+    - perl-moose
+    - perl-log-log4perl
+    - perl-list-util
+    - perl-list-moreutils
+    - perl-app-cpanminus
+    - perl-path-tiny
+    - perl-json-parse
+    - perl-data-dumper
+    - perl-array-compare
+    - perl-lwp-simple
+    - perl-datetime
+    - perl-xml-simple
+    - perl-tie-ixhash
+    - perl-readonly
+    - perl-carp
+    - perl-base
+    - perl-file-spec
+    - perl-dbi
+    - perl-dbd-pg
+    - perl-datetime-format-strptime
+    - perl-text-csv
+    - perl-json
+    - perl-xml-simple
+    - perl-xml-parser
+    - perl-xml-writer
+    - perl-ipc-cmd
+    - perl-datetime
+    - perl-data-compare
+
+test:
+  imports:
+    - Atlas::AtlasAssayFactory
+    - Atlas::FPKMmatrix
+    - Atlas::Assay
+    - Atlas::ZoomaClient
+    - Atlas::Magetab4Atlas
+    - Atlas::ExptFinder
+    - Atlas::Common
+    - Atlas::AtlasConfig::AssayGroup
+    - Atlas::AtlasConfig::Analytics
+    - Atlas::AtlasConfig::FactorsConfigFactory
+    - Atlas::AtlasConfig::ExperimentConfig
+    - Atlas::AtlasConfig::Reader
+    - Atlas::AtlasConfig::BiologicalReplicate
+    - Atlas::ZoomaClient::MappingResult
+    - EBI::FGPT::Config
+
+
+about:
+  home: https://github.com/ebi-gene-expression-group/perl-atlas-modules
+  license: GPL-3
+  summary: A package exporting in-house perl functions and classes used in the data production of EMBL-EBI Expression Atlas data. 
+
+extra:
+  recipe-maintainers:
+    - suhaibMo
