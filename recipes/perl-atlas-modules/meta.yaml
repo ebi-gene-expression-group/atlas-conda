@@ -7,8 +7,6 @@ package:
 source:
   url: https://github.com/ebi-gene-expression-group/perl-atlas-modules/archive/{{ version }}.tar.gz  
   sha256: f1a63297c8325f750221977166ddb208e3a4073557245c1cfdb72b0941d31cb2
-  #git_url: https://github.com/ebi-gene-expression-group/perl-atlas-modules.git
-  #git_tag: feature/config_fixes
 
 # If this is a new build for the same version, increment the build
 # number. If you do not include this key, it defaults to 0.
