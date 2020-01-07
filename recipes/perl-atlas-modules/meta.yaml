@@ -16,35 +16,34 @@ build:
 requirements:
   build:
    - perl =5.26.2
-   - perl-list-util
-   - perl-list-moreutils
-   - perl-moose
-   - perl-log-log4perl
-   - perl-app-cpanminus
-   - perl-path-tiny
-   - perl-json-parse
-   - perl-data-dumper
    - perl-array-compare
-   - perl-lwp-simple
-   - perl-datetime
-   - perl-xml-simple
-   - perl-tie-ixhash
-   - perl-readonly
-   - perl-carp
+   - perl-app-cpanminus
    - perl-base
-   - perl-file-spec
+   - perl-carp
+   - perl-data-dumper
+   - perl-data-compare
+   - perl-datetime
+   - perl-datetime-format-strptime
+   - perl-date-format
    - perl-dbi
    - perl-dbd-pg
-   - perl-datetime-format-strptime
+   - perl-json-parse
+   - perl-list-util
+   - perl-list-moreutils
+   - perl-log-log4perl
+   - perl-lwp-simple
+   - perl-lwp-protocol-https
+   - perl-moose
+   - perl-path-tiny
+   - perl-tie-ixhash
+   - perl-readonly
+   - perl-file-spec
    - perl-text-csv
    - perl-json
    - perl-xml-simple
    - perl-xml-parser
    - perl-xml-writer
    - perl-ipc-cmd
-   - perl-datetime
-   - perl-data-compare
-   - perl-lwp-protocol-https
    - {{ compiler('c') }}
    - {{ compiler('cxx') }}
 
