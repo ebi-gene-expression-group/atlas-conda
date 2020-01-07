@@ -15,8 +15,6 @@ chmod -R a+x $atlasprodDir
  PERLLIB="${PREFIX}/lib/perl5/${perl_version}/perl_lib"
  mkdir -p $PERLLIB && chmod a+x $PERLLIB
 
- ## Text CSV XS first for BioMagetab
- cpanm -l $PERLLIB Text::CSV_XS@0.32
  ## install modules from CPAN directly as they are no conda packages for these modules
  cpanm -l $PERLLIB MooseX::FollowPBP \
  					URI::Escape \
