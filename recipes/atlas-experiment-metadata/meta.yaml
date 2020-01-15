@@ -1,4 +1,4 @@
-{% set version = "0.0.1" %}
+{% set version = "0.0.2" %}
 
 package:
   name: atlas-experiment-metadata
@@ -6,7 +6,7 @@ package:
 
 source:
     url: https://github.com/ebi-gene-expression-group/experiment_metadata/archive/v{{ version }}.tar.gz
-    sha256: 46647363399be34b4bb97d77af298b573bb7a6fdc9d0c487d0db3b7802cc68d5
+    sha256: e459603e732faac6cfb7959de10bdcb8305c365b467ff559fc8ef28ae0aa7623
 
 build:
   number: 0
@@ -16,12 +16,17 @@ requirements:
   host:
   run:
     - bash
+    - libgfortran
     - perl-atlas-modules
+    - r-optparse=1.6.0
+    - r-reshape2 
+    - r-data.table
 
 test:
   commands:
     - condense_sdrf.pl | grep "You must specify an experiment accession" 2> /dev/null
     - which single_cell_condensed_sdrf.sh
+    - unmelt_condensed.R --help
 
 about:
   home: https://github.com/ebi-gene-expression-group/experiment_metadata
