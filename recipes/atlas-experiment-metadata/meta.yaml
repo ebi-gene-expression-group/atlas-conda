@@ -1,0 +1,39 @@
+{% set version = "0.0.2" %}
+
+package:
+  name: atlas-experiment-metadata
+  version: {{ version }}
+
+source:
+    url: https://github.com/ebi-gene-expression-group/experiment_metadata/archive/v{{ version }}.tar.gz
+    sha256: e459603e732faac6cfb7959de10bdcb8305c365b467ff559fc8ef28ae0aa7623
+
+build:
+  number: 0
+
+requirements:
+  build:
+  host:
+  run:
+    - bash
+    - libgfortran
+    - perl-atlas-modules
+    - r-optparse=1.6.0
+    - r-reshape2 
+    - r-data.table
+
+test:
+  commands:
+    - condense_sdrf.pl | grep "You must specify an experiment accession" 2> /dev/null
+    - which single_cell_condensed_sdrf.sh
+    - unmelt_condensed.R --help
+
+about:
+  home: https://github.com/ebi-gene-expression-group/experiment_metadata
+  summary: Metadata handling scripts for Atlas
+  license: Apache-2.0
+  license_family: Apache
+
+extra:
+  recipe-maintainers:
+    - pinin4fjords
