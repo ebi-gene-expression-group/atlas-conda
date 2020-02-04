@@ -23,6 +23,8 @@ cpanm -l $PERLLIB MooseX::FollowPBP \
  					File::Basename \
  					Bio::MAGETAB \
 					Date::Parse \
+					Test::MockObject \
+					Text::TabularDisplay \
 					Log::Dispatch::File
 
 mkdir -p ${PREFIX}/etc/conda/activate.d/
