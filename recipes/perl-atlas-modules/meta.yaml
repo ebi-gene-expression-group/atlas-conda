@@ -1,4 +1,4 @@
-{% set version = "0.1.2" %}
+{% set version = "0.1.3" %}
 
 package:
   name: perl-atlas-modules
@@ -6,12 +6,12 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/perl-atlas-modules/archive/{{ version }}.tar.gz
-  sha256: f1a63297c8325f750221977166ddb208e3a4073557245c1cfdb72b0941d31cb2
+  sha256: cd05e345eac80bf02a82f3043876685eecab8b33a458474e66962e9e44dbb133
 
 # If this is a new build for the same version, increment the build
 # number. If you do not include this key, it defaults to 0.
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
@@ -54,6 +54,8 @@ requirements:
 
   run:
     - perl =5.26.2
+    - perl-array-utils
+    - perl-class-std
     - perl-moose
     - perl-lwp-protocol-https
     - perl-log-log4perl
