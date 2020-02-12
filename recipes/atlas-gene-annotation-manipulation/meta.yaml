@@ -1,0 +1,32 @@
+{% set version = "0.0.1" %}
+
+package:
+  name: atlas-gene-annotation-manipulation
+  version: {{ version }}
+
+source:
+  url: https://github.com/ebi-gene-expression-group/atlas-gene-annotation-manipulation/archive/v{{ version }}.tar.gz
+  sha256: 3f27d93514967b46e16d193511cbceff7d439baf8b7424b131244d27639b7eba 
+
+build:
+  number: 0
+
+requirements:
+  build:
+  host:
+  run:
+    - r-base
+    - r-optparse
+    - bioconductor-rtracklayer
+    - bioconductor-biostrings
+
+test:
+  commands:
+    - gtf2featureAnnotation.R -h 
+
+about:
+  home: https://github.com/ebi-gene-expression-group/atlas-gene-annotation-manipulation 
+  license: Apache-2.0
+  summary: Scripts for manipulating gene annotation 
+  license_family: Apache
+
