@@ -1,0 +1,44 @@
+{% set version = "0.0.7" %}
+
+package: 
+  name: cell-types-analysis
+  version: '{{ version }}'
+
+source:
+  url: https://github.com/ebi-gene-expression-group/cell-types-analysis/archive/{{ version }}.tar.gz
+  sha256: ad16eef0a6736c7460624bb380b3044e4e1c9c2acac8f248181c1f8b5ea6cc80
+
+build:
+  number: 1
+  noarch: generic
+
+requirements:
+    run:
+      - r-hash=2.2.6.1
+      - r-foreach
+      - r-doparallel
+      - r-matrixstats
+      - bioconductor-onassis
+      - r-reshape2=1.4.3
+      - r-data.table=1.12.8
+      - openjdk=8.0.152 
+      - r-optparse
+      - r-workflowscriptscommon
+      - bats
+      - r-yaml
+   
+test:
+    commands:
+      - build_cell_ontology_dict.R --help
+      - combine_tool_outputs.R --help
+      - get_consensus_output.R --help
+      - get_empirical_dist.R --help
+      - get_tool_performance_table.R --help
+      - get_tool_pvals.R --help
+      - which run_post_install_tests.sh
+      
+about:
+  home: https://github.com/ebi-gene-expression-group/cell-types-analysis
+  license: MIT
+  summary: A suite of scripts for analysis of scRNA-seq cell type classification tools outputs.
+  
