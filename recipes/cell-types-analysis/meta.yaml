@@ -9,7 +9,7 @@ source:
   sha256: ad16eef0a6736c7460624bb380b3044e4e1c9c2acac8f248181c1f8b5ea6cc80
 
 build:
-  number: 1
+  number: 2
   noarch: generic
 
 requirements:
@@ -26,6 +26,7 @@ requirements:
       - r-workflowscriptscommon
       - bats
       - r-yaml
+      - r-stringi
    
 test:
     commands:
