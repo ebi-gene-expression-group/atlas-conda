@@ -1,4 +1,4 @@
-{% set version = "0.0.4" %}
+{% set version = "0.0.5" %}
 
 package:
   name: atlas-experiment-metadata
@@ -6,7 +6,7 @@ package:
 
 source:
     url: https://github.com/ebi-gene-expression-group/experiment_metadata/archive/v{{ version }}.tar.gz
-    sha256: a529bd8a71611e756e18db944df401d4e0a9d2293e90061c89eff1a96fc2978f
+    sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  
 
 build:
   number: 0
