@@ -1,4 +1,4 @@
-{% set version = "1.6" %}
+{% set version = "1.7" %}
 
 package:
   name: r-atlas-internal
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/internal-ExpressionAtlas/archive/{{ version }}.tar.gz
-  sha256: 84be1c4d30dfcce2fbee60f72cec7f0432ba45e9a372c8fddd096d9d55b9f8d3
+  sha256: d24be3d2143b13eafde32874895f3ac00f1ed87b5a6f50f10a62d1a34f869d0a
 
 build:
   number: 0
@@ -48,8 +48,7 @@ test:
     - $R -e "library(ExpressionAtlasInternal)"
 
 about:
-  home: https://github.com/ebi-gene-expression-group/internal-ExpressionAtlas 
+  home: https://github.com/ebi-gene-expression-group/internal-ExpressionAtlas
   license: GPL-3
-  summary: A package exporting functions and classes used in the representation and analysis of EMBL-EBI Expression Atlas data. 
+  summary: A package exporting functions and classes used in the representation and analysis of EMBL-EBI Expression Atlas data.
   license_family: GPL3
-
