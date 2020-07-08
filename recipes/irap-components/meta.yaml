@@ -9,7 +9,7 @@ source:
   sha256: bf3d0a35ffba3076465da9f6a7dc513ea2110f0708edd1640e659366ed304614 
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win32]
 
 requirements:
@@ -21,8 +21,6 @@ requirements:
         - r-optparse
         - r-data.table
         - fastq_utils
-        - samtools =1.9
-        - openssl=1.0
         - irap-bamutils
 
 test:
