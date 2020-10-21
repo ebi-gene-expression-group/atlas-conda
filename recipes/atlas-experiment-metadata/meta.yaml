@@ -18,6 +18,7 @@ requirements:
     - bash
     - libgfortran
     - perl-atlas-modules
+    - perl-dbd-pg
     - r-optparse=1.6.0
     - r-reshape2 
     - r-data.table
