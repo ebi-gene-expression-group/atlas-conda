@@ -6,7 +6,7 @@ package:
 
 source:
     url: https://github.com/ebi-gene-expression-group/experiment_metadata/archive/v{{ version }}.tar.gz
-    sha256: 83307d556b19293c286a0687b64aa9a81e2c22d3400d3f0d2ecd2313d70d5210
+    sha256: 27b3b4b582849608a5da8f995aed4bde64f6ccecd929da8c5acbb926a70a7bc9
 
 build:
   number: 0
