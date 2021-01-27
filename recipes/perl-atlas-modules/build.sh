@@ -28,7 +28,7 @@ cpanm -l $PERLLIB MooseX::FollowPBP \
 					Log::Dispatch::File
 
 mkdir -p ${PREFIX}/etc/conda/activate.d/
-echo "export export PERL5LIB=$PERL5LIB:$atlasprodDir/perl_modules:$PERLLIB/lib/perl5" > ${PREFIX}/etc/conda/activate.d/${PKG_NAME}-${PKG_VERSION}.sh
+echo "export PERL5LIB=$PERL5LIB:$atlasprodDir/perl_modules:$PERLLIB/lib/perl5" > ${PREFIX}/etc/conda/activate.d/${PKG_NAME}-${PKG_VERSION}.sh
 
 chmod u+x ${PREFIX}/lib/${perl_version}/*
 
