@@ -14,9 +14,12 @@ build:
   number: 0
 
 requirements:
-  build:
+  host:
    - perl =5.26.2
-   - perl =5.20.3
+   - perl-app-cpanminus
+
+  run:
+   - perl =5.26.2
    - perl-array-compare
    - perl-app-cpanminus
    - perl-base
@@ -28,6 +31,9 @@ requirements:
    - perl-date-format
    - perl-dbi
    - perl-dbd-pg
+   - perl-archive-extract
+   - perl-clone
+   - perl-mime-lite
    - perl-json-parse
    - perl-list-util
    - perl-list-moreutils
@@ -47,47 +53,6 @@ requirements:
    - perl-ipc-cmd
    - {{ compiler('c') }}
    - {{ compiler('cxx') }}
-
-
-  host:
-   - perl =5.26.2
-   - perl =5.20.3
-   - perl-app-cpanminus
-
-  run:
-    - perl =5.26.2
-    - perl =5.20.3
-    - perl-array-utils
-    - perl-class-std
-    - perl-moose
-    - perl-lwp-protocol-https
-    - perl-log-log4perl
-    - perl-list-util
-    - perl-list-moreutils
-    - perl-app-cpanminus
-    - perl-path-tiny
-    - perl-json-parse
-    - perl-data-dumper
-    - perl-array-compare
-    - perl-lwp-simple
-    - perl-datetime
-    - perl-xml-simple
-    - perl-tie-ixhash
-    - perl-readonly
-    - perl-carp
-    - perl-base
-    - perl-file-spec
-    - perl-dbi
-    - perl-dbd-pg
-    - perl-datetime-format-strptime
-    - perl-text-csv
-    - perl-json
-    - perl-xml-simple
-    - perl-xml-parser
-    - perl-xml-writer
-    - perl-ipc-cmd
-    - perl-datetime
-    - perl-data-compare
 
 test:
   imports:
