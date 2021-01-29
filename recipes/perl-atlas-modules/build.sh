@@ -25,7 +25,9 @@ cpanm -l $PERLLIB MooseX::FollowPBP \
 					Date::Parse \
 					Test::MockObject \
 					Text::TabularDisplay \
-					Log::Dispatch::File
+					Log::Dispatch::File \
+					IO::CaptureOutput \
+					Class::DBI
 
 mkdir -p ${PREFIX}/etc/conda/activate.d/
 echo "export export PERL5LIB=$PERL5LIB:$atlasprodDir/perl_modules:$PERLLIB/lib/perl5" > ${PREFIX}/etc/conda/activate.d/${PKG_NAME}-${PKG_VERSION}.sh
