@@ -1,4 +1,4 @@
-{% set version = "0.1.4" %}
+{% set version = "0.1.5" %}
 
 package:
   name: perl-atlas-modules
@@ -6,21 +6,23 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/perl-atlas-modules/archive/{{ version }}.tar.gz
-  sha256: cd05e345eac80bf02a82f3043876685eecab8b33a458474e66962e9e44dbb133
+  sha256: df81a9327e1f6028eaa84e7ff31ca4900d0e468e0d96e2f367278043941853e0
 
 # If this is a new build for the same version, increment the build
 # number. If you do not include this key, it defaults to 0.
 build:
-  number: 4
+  number: 0
 
 requirements:
   build:
    - perl-algorithm-diff
    - perl-app-cpanminus
-   - perl-array-compare
+   - perl-archive-extract
+   - perl-array-compare 
    - perl-base
    - perl-carp
    - perl-carp-clan
+   - perl-clone
    - perl-data-compare
    - perl-data-dumper
    - perl-date-format
@@ -44,6 +46,7 @@ requirements:
    - perl-lwp-protocol-https
    - perl-lwp-simple
    - perl-mailtools
+   - perl-mime-lite
    - perl-module-build
    - perl-module-build-tiny
    - perl-module-pluggable
@@ -77,16 +80,18 @@ requirements:
    - {{ compiler('cxx') }}
 
   host:
-   - perl =5.26.2
+   - perl=5.26.2
 
   run:
    - perl-algorithm-diff
    - perl-array-compare
+   - perl-archive-extract
    - perl-array-utils
    - perl-base
    - perl-carp
    - perl-carp-clan
    - perl-class-std
+   - perl-clone
    - perl-data-compare
    - perl-data-dumper
    - perl-date-format
@@ -110,6 +115,7 @@ requirements:
    - perl-lwp-protocol-https
    - perl-lwp-simple
    - perl-mailtools
+   - perl-mime-lite
    - perl-module-build
    - perl-module-build-tiny
    - perl-module-pluggable
