@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "PREFIX: $PREFIX" 1>&2
-
 ## perl version
 perl_version=$(perl -e 'print $^V');
 perl_version=${perl_version:1}
