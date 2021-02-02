@@ -1,8 +1,11 @@
 #!/bin/bash
 
+echo "PREFIX: $PREFIX" 1>&2
+
 ## perl version
 perl_version=$(perl -e 'print $^V');
 perl_version=${perl_version:1}
+
 
 ## Hack to get around hardcoded paths in perl modules and config requirements
 atlasprodDir=${PREFIX}/atlasprod
@@ -16,6 +19,7 @@ PERLLIB="${PREFIX}/lib/perl5/${perl_version}/perl_lib"
 mkdir -p $PERLLIB && chmod a+x $PERLLIB
 
 ## install modules from CPAN directly as they are no conda packages for these modules
+
 cpanm -l $PERLLIB MooseX::FollowPBP \
  					URI::Escape \
  					URL::Encode \

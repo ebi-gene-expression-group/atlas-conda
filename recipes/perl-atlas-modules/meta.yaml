@@ -15,76 +15,130 @@ build:
 
 requirements:
   build:
-   - perl =5.26.2
-   - perl-array-compare
+   - perl-algorithm-diff
    - perl-app-cpanminus
+   - perl-array-compare
    - perl-base
    - perl-carp
-   - perl-data-dumper
+   - perl-carp-clan
    - perl-data-compare
+   - perl-data-dumper
+   - perl-date-format
+   - perl-date-manip
    - perl-datetime
    - perl-datetime-format-strptime
-   - perl-date-format
-   - perl-dbi
    - perl-dbd-pg
-   - perl-json-parse
-   - perl-list-util
-   - perl-list-moreutils
-   - perl-log-log4perl
-   - perl-lwp-simple
-   - perl-lwp-protocol-https
-   - perl-moose
-   - perl-path-tiny
-   - perl-tie-ixhash
-   - perl-readonly
+   - perl-dbi
+   - perl-devel-symdump
+   - perl-extutils-cbuilder
+   - perl-extutils-config
+   - perl-extutils-helpers
+   - perl-extutils-installpaths
    - perl-file-spec
-   - perl-text-csv
-   - perl-json
-   - perl-xml-simple
-   - perl-xml-parser
-   - perl-xml-writer
    - perl-ipc-cmd
+   - perl-json
+   - perl-json-parse
+   - perl-list-moreutils
+   - perl-list-util
+   - perl-log-log4perl
+   - perl-lwp-protocol-https
+   - perl-lwp-simple
+   - perl-mailtools
+   - perl-module-build
+   - perl-module-build-tiny
+   - perl-module-pluggable
+   - perl-moose
+   - perl-moosex-types
+   - perl-params-coerce
+   - perl-params-validate
+   - perl-parse-recdescent
+   - perl-path-tiny
+   - perl-readonly
+   - perl-spiffy
+   - perl-sub-exporter-formethods
+   - perl-sub-uplevel
+   - perl-test-exception
+   - perl-test-inter
+   - perl-test-nowarnings
+   - perl-test-pod
+   - perl-test-pod-coverage
+   - perl-test-warn
+   - perl-text-csv
+   - perl-text-csv_xs
+   - perl-text-diff
+   - perl-tie-ixhash
+   - perl-timedate
+   - perl-uri 
+   - perl-xml-parser
+   - perl-xml-simple
+   - perl-xml-writer
+   - perl-yaml
    - {{ compiler('c') }}
    - {{ compiler('cxx') }}
 
-
   host:
    - perl =5.26.2
-   - perl-app-cpanminus
 
   run:
-    - perl =5.26.2
-    - perl-array-utils
-    - perl-class-std
-    - perl-moose
-    - perl-lwp-protocol-https
-    - perl-log-log4perl
-    - perl-list-util
-    - perl-list-moreutils
-    - perl-app-cpanminus
-    - perl-path-tiny
-    - perl-json-parse
-    - perl-data-dumper
-    - perl-array-compare
-    - perl-lwp-simple
-    - perl-datetime
-    - perl-xml-simple
-    - perl-tie-ixhash
-    - perl-readonly
-    - perl-carp
-    - perl-base
-    - perl-file-spec
-    - perl-dbi
-    - perl-dbd-pg
-    - perl-datetime-format-strptime
-    - perl-text-csv
-    - perl-json
-    - perl-xml-simple
-    - perl-xml-parser
-    - perl-xml-writer
-    - perl-ipc-cmd
-    - perl-datetime
-    - perl-data-compare
+   - perl-algorithm-diff
+   - perl-array-compare
+   - perl-array-utils
+   - perl-base
+   - perl-carp
+   - perl-carp-clan
+   - perl-class-std
+   - perl-data-compare
+   - perl-data-dumper
+   - perl-date-format
+   - perl-date-manip
+   - perl-datetime
+   - perl-datetime-format-strptime
+   - perl-dbd-pg
+   - perl-dbi
+   - perl-devel-symdump
+   - perl-extutils-cbuilder
+   - perl-extutils-config
+   - perl-extutils-helpers
+   - perl-extutils-installpaths
+   - perl-file-spec
+   - perl-ipc-cmd
+   - perl-json
+   - perl-json-parse
+   - perl-list-moreutils
+   - perl-list-util
+   - perl-log-log4perl
+   - perl-lwp-protocol-https
+   - perl-lwp-simple
+   - perl-mailtools
+   - perl-module-build
+   - perl-module-build-tiny
+   - perl-module-pluggable
+   - perl-moose
+   - perl-moosex-types
+   - perl-params-coerce
+   - perl-params-validate
+   - perl-parse-recdescent
+   - perl-path-tiny
+   - perl-readonly
+   - perl-spiffy
+   - perl-sub-exporter-formethods
+   - perl-sub-uplevel
+   - perl-test-exception
+   - perl-test-inter
+   - perl-test-nowarnings
+   - perl-test-pod
+   - perl-test-pod-coverage
+   - perl-test-warn
+   - perl-text-csv
+   - perl-text-csv_xs
+   - perl-text-diff
+   - perl-tie-ixhash
+   - perl-timedate
+   - perl-uri 
+   - perl-xml-parser
+   - perl-xml-simple
+   - perl-xml-writer
+   - perl-yaml
 
 test:
   imports:
@@ -113,3 +167,4 @@ about:
 extra:
   recipe-maintainers:
     - suhaibMo
+
