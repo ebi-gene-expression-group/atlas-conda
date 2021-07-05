@@ -23,6 +23,7 @@ requirements:
         - r-intervals
         - fastq_utils
         - irap-bamutils
+        - bioconductor-piano
 
 test:
     commands:
