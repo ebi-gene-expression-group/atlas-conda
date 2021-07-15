@@ -1,4 +1,4 @@
-{% set version = "0.0.1" %}
+{% set version = "1.0.0" %}
 
 package:
   name: atlas-gene-annotation-manipulation
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/atlas-gene-annotation-manipulation/archive/v{{ version }}.tar.gz
-  sha256: 3f27d93514967b46e16d193511cbceff7d439baf8b7424b131244d27639b7eba 
+  sha256: 3849ad0108332c3611f7d543401139432c56c121811a20b3371cd20b1b61f57c
 
 build:
   number: 0
@@ -15,6 +15,7 @@ requirements:
   build:
   host:
   run:
+    - r-plyr
     - r-base
     - r-optparse
     - bioconductor-rtracklayer
