@@ -1,4 +1,4 @@
-{% set version = "1.0.0" %}
+{% set version = "1.0.1" %}
 
 package:
   name: atlas-gene-annotation-manipulation
@@ -6,10 +6,11 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/atlas-gene-annotation-manipulation/archive/v{{ version }}.tar.gz
-  sha256: 3849ad0108332c3611f7d543401139432c56c121811a20b3371cd20b1b61f57c
+  sha256: a5bb596d097fb0f34110d93200a16d607fc54b84b7e5ca8e31a883987b8f9ac2
 
 build:
   number: 0
+  noarch: generic
 
 requirements:
   build:
