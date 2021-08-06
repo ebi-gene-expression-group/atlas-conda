@@ -32,7 +32,7 @@ jobs:
         override: true
         # dry_run only build the packages without publishing them to conda.
         dry_run: false
-    no_publish:
+  no_publish:
     # this job will only run if the PR has been closed without being merged
     if: github.event.pull_request.merged == false
     runs-on: ubuntu-latest

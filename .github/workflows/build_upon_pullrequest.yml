@@ -1,11 +1,11 @@
 name: Build conda packages upon pull request
 on:
-  # Trigger the workflow on pull request, but only for the feature branch.
+  # Trigger the workflow on pull request, but only in braches different than main
   # By default, a workflow only runs when a pull_request's activity type
   # is opened, synchronize, or reopened. To trigger workflows for more activity types, use the types keyword.
   pull_request:
-    branches:
-      - feature
+    branches-ignore:
+      - main
     # explicit definition of the paths, probably unnecessary
     paths:
       - 'atlas-experiment-metadata/**'
@@ -16,14 +16,31 @@ on:
       - 'irap-components/**'
       - 'r-atlas-internal/**'
 jobs:
-  publish:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+    # Get changed folders github action, https://github.com/marketplace/actions/get-changed-folders
+    - name: Get changed folders github action
+    - uses: Stockopedia/get-changed-files@v1
+    id: get_changed
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      ignore: "**/*.js" # optional
+      foldersOnly: true # to only include folders in the output
+      format: json # either json, csv of newline
+    - name: Echo
+    run: MY_ENV_VAR: ${{ steps.get_changed.outputs.changed }} # env variable/list with dirs that changed
+
+  job2: #build on changed directories
+    needs: job1
+    #if MY_ENV_VAR not empty
     runs-on: [ubuntu-latest, macos-latest]
     steps:
     - uses: actions/checkout@v1
-    - name: publish-to-conda
+    - name: build-conda-package
       uses: MichaelsJP/conda-package-publish-action@v1.0.0
       with:
-        subDir: '.*'  # will this work for all subDirs?
+        subDir: '.*'  # set up here for directory/ies that changed
         AnacondaToken: ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}
         platforms: 'osx-64 osx-arm64 linux-32 linux-ppc64 linux-ppc64le linux-s390x linux-armv6l linux-armv7l linux-aarch64'
         override: false
