@@ -15,6 +15,9 @@ jobs:
       fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
       matrix:
         os: ["ubuntu-latest", "macos-latest"]
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
       - uses: actions/checkout@v2
 
@@ -33,10 +36,21 @@ jobs:
         id: changed-recipes
         run: |
             echo "::set-output name=changed_recipes::$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')"
-      
+     
+      - name: Cache conda
+        uses: actions/cache@v2
+        env:
+          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+            hashFiles('build-environment.yml') }}
+
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          activate-environment: base
+          activate-environment: build
           environment-file: build-environment.yml
           python-version: 3.6
           channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
@@ -47,7 +61,7 @@ jobs:
 
       # For pushes rather than pushes, we'll do an upload to conda at the same time
 
-      - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+      - if: ${{ github.event_name == 'pull_request' && github.ref == 'refs/heads/master' }}
         run: |
             conda config --set anaconda_upload yes
 
