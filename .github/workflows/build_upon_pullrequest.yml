@@ -17,8 +17,8 @@ jobs:
         
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          auto-activate-base: true
-          activate-environment: ""
+          activate-environment: "build"
+          environment-file: build-environment.yml
 
       - name: Get master SHA
         id: getsha
