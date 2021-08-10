@@ -53,8 +53,8 @@ jobs:
         run: |
             conda config --show
 
-            #- name: Do a test build of modified recipes
-            #run: |
-            #for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
+      - name: Do a test build of modified recipes
+        run: |
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
 
 
