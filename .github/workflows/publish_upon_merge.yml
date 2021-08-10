@@ -64,10 +64,12 @@ jobs:
           Platforms: 'osx-64' # 'osx-64 osx-arm64 linux-32 linux-ppc64 linux-ppc64le linux-s390x linux-armv6l linux-armv7l linux-aarch64'
           CondaUsername: ${{ secrets.CONDA_USERNAME }}
           CondaPassword: ${{ secrets.CONDA_PASSWORD }}
-      - run: |
-        echo PR #${{ github.event.number }} has been merged and published
+      - name: Echo merge
+        run: |
+        echo PR ${{ github.event.number }} has been merged and published
 
-  no_publish:  # this job will only run if the PR has been closed without being merged
+  noPublish:
+    # this job will only run if the PR has been closed without being merged
     if: github.event.pull_request.merged == false
     name: ${{ matrix.os }})
     runs-on: ${{ matrix.os }} #[ubuntu-latest, macos-latest]
@@ -76,5 +78,6 @@ jobs:
       matrix:
         os: ["ubuntu-latest", "macos-latest"]
     steps:
-      - run: |
-        echo PR #${{ github.event.number }} has been closed without being merged
+      - name: Echo no merge
+        run: |
+        echo PR ${{ github.event.number }} has been closed without being merged
