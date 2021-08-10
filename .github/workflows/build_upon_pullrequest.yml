@@ -31,15 +31,16 @@ jobs:
         run: |
             echo "::set-output name=changed_recipes::$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')"
       
-      - name: Conda environment creation and activation
-        uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: 3.8
-          environment-file: build-environment.yml    # Path to the build conda environment
-          auto-update-conda: false
-          auto-activate-base: false
+          activate-environment: build
+          environment-file: build-environment.yml
+          python-version: 3.6
+          channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
+          allow-softlinks: true
+          channel-priority: flexible
           show-channel-urls: true
-          activate-environment: 'build'
+          use-only-tar-bz2: true
 
       - name: Do a test build of modified recipes
         run: |
