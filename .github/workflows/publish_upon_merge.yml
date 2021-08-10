@@ -25,7 +25,7 @@ jobs:
         matrix:
           os: ["ubuntu-latest", "macos-latest"]
     steps:
-    - name: Get changed folders github action
+    #- name: Get changed folders github action
     - uses: Stockopedia/get-changed-files@v1
       id: get_changed
       with:
