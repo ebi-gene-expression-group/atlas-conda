@@ -45,6 +45,8 @@ jobs:
           show-channel-urls: true
           use-only-tar-bz2: true
 
+      # For pushes rather than pushes, we'll do an upload to conda at the same time
+
       - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         run: |
             conda config --set anaconda_upload yes
@@ -55,6 +57,6 @@ jobs:
 
       - name: Do a test build of modified recipes
         run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build --user ebi-gene-expression-group $recipe; done
 
 
