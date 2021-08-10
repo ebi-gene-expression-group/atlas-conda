@@ -45,12 +45,11 @@ jobs:
           show-channel-urls: true
           use-only-tar-bz2: true
 
-      - run: 
-        if: ${{ github.event_name == 'pull_request' }}
+      - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         run: |
             conda config --set anaconda_upload yes
 
-      - run: 
+      - name: Print config
         run: |
             conda config --show
 
