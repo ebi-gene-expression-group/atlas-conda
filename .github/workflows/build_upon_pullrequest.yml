@@ -21,22 +21,22 @@ jobs:
     name: ${{ matrix.os }})
     runs-on: ${{ matrix.os }} #ubuntu-latest
     strategy:
-        fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
-        matrix:
-          os: ["ubuntu-latest", "macos-latest"]
+      fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
+      matrix:
+        os: ["ubuntu-latest", "macos-latest"]
     steps:
     - name: Get changed folders github action
     - uses: Stockopedia/get-changed-files@v1
-    id: get_changed
-    with:
-      github-token: ${{ secrets.GITHUB_TOKEN }}
-      ignore: "**/*.js"   # optional
-      foldersOnly: true   # to only include folders in the output
-      format: csv     # either json, csv or newline
+      id: get_changed
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        ignore: "**/*.js"   # optional
+        foldersOnly: true   # to only include folders in the output
+        format: newline     # either json, csv or newline
     - name: Echo
-      run: |
+      run: |   # output variable with dirs that changed, one in each line
         echo ${{ steps.get_changed.outputs.changed }}
-        ::set-output name=CHANGED_DIRS::${{ steps.get_changed.outputs.changed }} # output variable with dirs that changed, one in each line
+        ::set-output name=CHANGED_DIRS::${{ steps.get_changed.outputs.changed }}
 
   build_package: # job 2; build only on changed directories
     needs: [get_changed_folders]
