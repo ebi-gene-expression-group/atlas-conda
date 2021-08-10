@@ -7,7 +7,7 @@ on:
     branches:
       - main
     types: [closed]
-    # explicit definition of the paths, probably unnecessary
+    # explicit definition of the paths, probably unnecessary - to be removed
     paths:
       - 'atlas-experiment-metadata/**'
       - 'atlas-fastq-provider/**'
@@ -17,25 +17,64 @@ on:
       - 'irap-components/**'
       - 'r-atlas-internal/**'
 jobs:
+  get_changed_folders:  # Get changed folders github action, https://github.com/marketplace/actions/get-changed-folders
+    name: ${{ matrix.os }})
+    runs-on: ${{ matrix.os }} #ubuntu-latest
+    strategy:
+        fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
+        matrix:
+          os: ["ubuntu-latest", "macos-latest"]
+    steps:
+    - name: Get changed folders github action
+    - uses: Stockopedia/get-changed-files@v1
+    id: get_changed
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      ignore: "**/*.js"   # optional
+      foldersOnly: true   # to only include folders in the output
+      format: 'newline'   # either json, csv or newline
+    - name: Echo
+      run: |
+        echo ${{ steps.get_changed.outputs.changed }}
+        ::set-output name=CHANGED_DIRS::${{ steps.get_changed.outputs.changed }} # output variable with dirs that changed, one in each line
+
   publish:
     # this job will only run if the PR has been merged
     if: github.event.pull_request.merged == true
-    runs-on: [ubuntu-latest, macos-latest]
+    name: ${{ matrix.os }})
+    runs-on: ${{ matrix.os }} #[ubuntu-latest, macos-latest]
+    strategy:
+        fail-fast: false
+        matrix:
+          os: ["ubuntu-latest", "macos-latest"]
+    # https://github.com/marketplace/actions/publish-conda-package-action
+    # This action allows to define our channel
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+
     - name: publish-to-conda
+    - uses: amauryval/publish_conda_package_action@1.1.0
       uses: MichaelsJP/conda-package-publish-action@v1.0.0
       with:
-        subDir: '.*'  # will this work for all subDirs?
-        AnacondaToken: ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}
-        platforms: 'osx-64 osx-arm64 linux-32 linux-ppc64 linux-ppc64le linux-s390x linux-armv6l linux-armv7l linux-aarch64'
-        override: true
-        # dry_run only build the packages without publishing them to conda.
-        dry_run: false
+       # CondaDir: locate the directory containing your meta.yml, conda_build_config.yaml (...) files
+        CondaDir: '.*'  # that have changed with the merge
+        # Channels: You can add more channel with a space separator
+        Channels: 'ebi-gene-expression-group'
+        # Platforms: remove one or more of these platforms
+        Platforms: 'osx-64' # 'osx-64 osx-arm64 linux-32 linux-ppc64 linux-ppc64le linux-s390x linux-armv6l linux-armv7l linux-aarch64'
+        CondaUsername: ${{ secrets.CONDA_USERNAME }}
+        CondaPassword: ${{ secrets.CONDA_PASSWORD }}
+
   no_publish:
     # this job will only run if the PR has been closed without being merged
     if: github.event.pull_request.merged == false
-    runs-on: ubuntu-latest
+    name: ${{ matrix.os }})
+    runs-on: ${{ matrix.os }} #[ubuntu-latest, macos-latest]
+    strategy:
+        fail-fast: false
+        matrix:
+          os: ["ubuntu-latest", "macos-latest"]
     steps:
     - run: |
         echo PR #${{ github.event.number }} has been closed without being merged
