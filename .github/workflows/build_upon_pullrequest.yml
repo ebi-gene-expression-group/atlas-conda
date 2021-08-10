@@ -14,7 +14,12 @@ jobs:
         os: ["ubuntu-latest", "macos-latest"]
     steps:
       - uses: actions/checkout@v2
-     
+        
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-activate-base: true
+          activate-environment: ""
+
       - name: Get master SHA
         id: getsha
         run: echo "::set-output name=base_sha::$(git rev-parse master)"        
@@ -26,7 +31,13 @@ jobs:
             files: 'recipes'
             base_sha: "${{ steps.getsha.outputs.base_sha }}"
 
-      - name: List all modified files
+      - name: List all modified recipes
+        id: changed-recipes
         run: |
-          echo "${{ steps.changed-files.outputs.all_modified_files }}" | tr ' ' '\n'
+            echo "::set-output name=changed_recipes::$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')"
+
+      - name: Do a test build of modified recipes
+        run: |
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
+
 
