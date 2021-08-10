@@ -44,6 +44,6 @@ jobs:
 
       - name: Do a test build of modified recipes
         run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
+            conda info --envs && for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
 
 
