@@ -67,8 +67,7 @@ jobs:
       - run: |
         echo PR #${{ github.event.number }} has been merged and published
 
-  no_publish:
-    # this job will only run if the PR has been closed without being merged
+  no_publish:  # this job will only run if the PR has been closed without being merged
     if: github.event.pull_request.merged == false
     name: ${{ matrix.os }})
     runs-on: ${{ matrix.os }} #[ubuntu-latest, macos-latest]
