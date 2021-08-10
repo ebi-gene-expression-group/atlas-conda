@@ -44,6 +44,6 @@ jobs:
 
       - name: Do a test build of modified recipes
         run: |
-            source activate build && echo PREFIX:$CONDA_PREFIX && for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
 
 
