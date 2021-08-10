@@ -48,13 +48,13 @@ jobs:
         matrix:
           os: ["ubuntu-latest", "macos-latest"]
     # https://github.com/marketplace/actions/build-and-publish-conda-packages-to-anaconda-org
-    # here the channel is not so important (dry_run: true), we just want to build the package
+    # here the channel is not so important (dry_run: true), we just want to build the package:
     steps:
       - uses: actions/checkout@v1
       - name: build-conda-package
         uses: MichaelsJP/conda-package-publish-action@v1.0.0
         with:
-          subDir: '.*'  # set up here for directory/ies that have changed
+          subDir: .${{ steps.get_changed.outputs.changed }}  # set up here for directory/ies that have changed. Will it work with more 1 dir?
           AnacondaToken: ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}
           platforms: 'osx-64' # 'osx-64 osx-arm64 linux-32 linux-ppc64 linux-ppc64le linux-s390x linux-armv6l linux-armv7l linux-aarch64'
           override: false
