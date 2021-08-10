@@ -19,7 +19,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.8
-          environment-file: build-environment.yaml    # Path to the build conda environment
+          environment-file: build-environment.yml    # Path to the build conda environment
           auto-update-conda: false
           auto-activate-base: false
           show-channel-urls: true
