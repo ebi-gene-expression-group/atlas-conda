@@ -33,7 +33,7 @@ jobs:
       
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          activate-environment: build
+          activate-environment: base
           environment-file: build-environment.yml
           python-version: 3.6
           channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
