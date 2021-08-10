@@ -47,16 +47,11 @@ jobs:
 
       # For pushes rather than pushes, we'll do an upload to conda at the same time
 
-      - if: ${{ github.event_name == 'pull_request' && github.ref == 'refs/heads/master' }}
+      - if: ${{ github.event_name == 'pull_request' }}
         run: |
             conda config --set anaconda_upload yes
 
       - name: Print config
         run: |
             conda config --show
-
-      - name: Do a test build of modified recipes
-        run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build --user ebi-gene-expression-group $recipe; done
-
 
