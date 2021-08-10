@@ -6,7 +6,7 @@ on:
   # It should work only with recipes that have changed
   pull_request:
     branches-ignore:
-      - main
+      - master
     # explicit definition of the paths, probably unnecessary - to be removed
     paths:
       - 'atlas-experiment-metadata/**'
@@ -18,7 +18,7 @@ on:
       - 'r-atlas-internal/**'
 jobs:
   get_changed_folders:  # job 1; # Get changed folders github action, https://github.com/marketplace/actions/get-changed-folders
-    name: ${{ matrix.os }})
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }} #ubuntu-latest
     strategy:
       fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
@@ -41,7 +41,7 @@ jobs:
   build_package: # job 2; build only on changed directories
     needs: [get_changed_folders]
     #if CHANGED_DIRS not empty:
-    name: ${{ matrix.os }})
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }} # [ubuntu-latest, macos-latest]
     strategy:
         fail-fast: false
@@ -54,7 +54,7 @@ jobs:
       - name: build-conda-package
         uses: MichaelsJP/conda-package-publish-action@v1.0.0
         with:
-          subDir: .${{ steps.get_changed.outputs.changed }}  # set up here for directory/ies that have changed. Will it work with more 1 dir?
+          subDir: ${{ steps.get_changed.outputs.changed }}  # set up here for directory/ies that have changed. Will it work with more 1 dir?
           AnacondaToken: ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}
           platforms: 'osx-64' # 'osx-64 osx-arm64 linux-32 linux-ppc64 linux-ppc64le linux-s390x linux-armv6l linux-armv7l linux-aarch64'
           override: false

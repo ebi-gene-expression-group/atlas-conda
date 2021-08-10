@@ -5,7 +5,7 @@ on:
   # is opened, synchronize, or reopened. To trigger workflows for more activity types, use the types keyword.
   pull_request:
     branches:
-      - main
+      - master
     types: [closed]
     # explicit definition of the paths, probably unnecessary - to be removed
     paths:
@@ -18,7 +18,7 @@ on:
       - 'r-atlas-internal/**'
 jobs:
   get_changed_folders:  # Get changed folders github action, https://github.com/marketplace/actions/get-changed-folders
-    name: ${{ matrix.os }})
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }} #ubuntu-latest
     strategy:
       fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
@@ -41,7 +41,7 @@ jobs:
   publish:
     # this job will only run if the PR has been merged
     if: github.event.pull_request.merged == true
-    name: ${{ matrix.os }})
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }} #[ubuntu-latest, macos-latest]
     strategy:
       fail-fast: false
@@ -71,7 +71,7 @@ jobs:
   noPublish:
     # this job will only run if the PR has been closed without being merged
     if: github.event.pull_request.merged == false
-    name: ${{ matrix.os }})
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }} #[ubuntu-latest, macos-latest]
     strategy:
       fail-fast: false
