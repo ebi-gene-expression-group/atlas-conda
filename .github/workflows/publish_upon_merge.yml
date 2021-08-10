@@ -21,9 +21,9 @@ jobs:
     name: ${{ matrix.os }})
     runs-on: ${{ matrix.os }} #ubuntu-latest
     strategy:
-        fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
-        matrix:
-          os: ["ubuntu-latest", "macos-latest"]
+      fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
+      matrix:
+        os: ["ubuntu-latest", "macos-latest"]
     steps:
     #- name: Get changed folders github action
     - uses: Stockopedia/get-changed-files@v1
@@ -44,27 +44,28 @@ jobs:
     name: ${{ matrix.os }})
     runs-on: ${{ matrix.os }} #[ubuntu-latest, macos-latest]
     strategy:
-        fail-fast: false
-        matrix:
-          os: ["ubuntu-latest", "macos-latest"]
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "macos-latest"]
     # https://github.com/marketplace/actions/publish-conda-package-action
     # This action allows to define our channel
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: publish-to-conda
-    - uses: amauryval/publish_conda_package_action@1.1.0
-      uses: MichaelsJP/conda-package-publish-action@v1.0.0
-      with:
-       # CondaDir: locate the directory containing your meta.yml, conda_build_config.yaml (...) files
-        CondaDir: '.*'  # that have changed with the merge
-        # Channels: You can add more channel with a space separator
-        Channels: 'ebi-gene-expression-group'
-        # Platforms: remove one or more of these platforms
-        Platforms: 'osx-64' # 'osx-64 osx-arm64 linux-32 linux-ppc64 linux-ppc64le linux-s390x linux-armv6l linux-armv7l linux-aarch64'
-        CondaUsername: ${{ secrets.CONDA_USERNAME }}
-        CondaPassword: ${{ secrets.CONDA_PASSWORD }}
+      - name: publish-to-conda
+        uses: amauryval/publish_conda_package_action@1.1.0
+        with:
+          # CondaDir: locate the directory containing your meta.yml, conda_build_config.yaml (...) files
+          CondaDir: '.*'  # that have changed with the merge
+          # Channels: You can add more channel with a space separator
+          Channels: 'ebi-gene-expression-group'
+          # Platforms: remove one or more of these platforms
+          Platforms: 'osx-64' # 'osx-64 osx-arm64 linux-32 linux-ppc64 linux-ppc64le linux-s390x linux-armv6l linux-armv7l linux-aarch64'
+          CondaUsername: ${{ secrets.CONDA_USERNAME }}
+          CondaPassword: ${{ secrets.CONDA_PASSWORD }}
+      - run: |
+        echo PR #${{ github.event.number }} has been merged and published
 
   no_publish:
     # this job will only run if the PR has been closed without being merged
@@ -72,9 +73,9 @@ jobs:
     name: ${{ matrix.os }})
     runs-on: ${{ matrix.os }} #[ubuntu-latest, macos-latest]
     strategy:
-        fail-fast: false
-        matrix:
-          os: ["ubuntu-latest", "macos-latest"]
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "macos-latest"]
     steps:
-    - run: |
+      - run: |
         echo PR #${{ github.event.number }} has been closed without being merged
