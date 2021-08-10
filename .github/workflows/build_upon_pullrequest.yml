@@ -53,6 +53,5 @@ jobs:
 
       - name: Print config
         run: |
-            conda config --set anaconda_upload yes
             conda config --show
 
