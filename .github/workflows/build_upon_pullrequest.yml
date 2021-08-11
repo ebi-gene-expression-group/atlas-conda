@@ -54,6 +54,7 @@ jobs:
             auto-update-conda: true
             auto-activate-base: true
             activate-environment: ""
+            environment-file: build-environment.yml
 
       # For pushes rather than pushes, we'll do an upload to conda at the same time
 
