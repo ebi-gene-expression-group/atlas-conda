@@ -41,7 +41,7 @@ jobs:
         uses: actions/cache@v2
         env:
           # Increase this value to reset cache if etc/example-environment.yml has not changed
-          CACHE_NUMBER: 3
+          CACHE_NUMBER: 0
         with:
           path: ~/conda_pkgs_dir
           key:
@@ -50,25 +50,26 @@ jobs:
 
       - uses: conda-incubator/setup-miniconda@v2
         with:
-            python-version: 3.9
-            miniconda-version: "latest"
-            auto-update-conda: true
-            environment-file: build-environment.yml
+            environment-file: .github/build-environment.yml
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
-
-      # For pushes rather than pushes, we'll do an upload to conda at the same time
-
-      - name: Configure for possible Anaconda upload
-        id: conda-config
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          conda config --set anaconda_upload yes
-          echo "::set-output name=conda_opts:: --user ebi-gene-expression-group --token ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}"
-
-      - name: Print config
-        run: |
-            conda config --show
 
       - name: Do a test build of modified recipes
         run: |
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build${{steps.conda-config.outputs.conda_opts}} $recipe; done
+      
+      - name: Derive build dir
+        id: find-build-dir
+        run: |
+            echo "::set-output build_dir=$(conda config --get croot)/$(conda config --get subdir)"
+
+      - name: Upload to Anaconda
+        if: ${{ github.event_name == 'pull_request' }} # This will be on pushes to master in the final version
+        run: >-
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do 
+                built_package=$(ls ${{ steps.find-build-dir.outputs.build_dir }}/recipe-*.bz2 | head -n 1);
+                echo "Found bulilt package $built_package for $recipe"
+                anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package --force;
+            done
+            
+
+
