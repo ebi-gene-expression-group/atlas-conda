@@ -57,7 +57,7 @@ jobs:
 
       - name: Do a test build of modified recipes
         run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build$ $recipe; done
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
       
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
