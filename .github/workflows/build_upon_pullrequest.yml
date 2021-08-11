@@ -52,16 +52,16 @@ jobs:
         with:
             environment-file: .github/build-environment.yml
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
-
-      - name: Do a test build of modified recipes
-        run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build${{steps.conda-config.outputs.conda_opts}} $recipe; done
       
       - name: Derive build dir
         id: find-build-dir
         run: |
             echo "::set-output build_dir=$(conda config --show | grep 'croot: ' | awk -F': ' '{print $2}')/$(conda config --show | grep 'subdir: ' | awk -F': ' '{print $2}'))"
 
+      - name: Do a test build of modified recipes
+        run: |
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build${{steps.conda-config.outputs.conda_opts}} $recipe; done
+      
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'pull_request' }} # This will be on pushes to master in the final version
         run: >-
