@@ -52,7 +52,7 @@ jobs:
         with:
           activate-environment: build
           environment-file: build-environment.yml
-          python-version: 3.6
+          python-version: 3.8
           channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
           allow-softlinks: true
           channel-priority: flexible
