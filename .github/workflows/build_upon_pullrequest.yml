@@ -66,7 +66,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           conda config --set anaconda_upload yes
-          echo "::set-output name=conda_opts:: --user ebi-gene-expression-group --anaconda_token ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}"
+          echo "::set-output name=conda_opts:: --user ebi-gene-expression-group --token ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}"
 
       - name: Print config
         run: |
