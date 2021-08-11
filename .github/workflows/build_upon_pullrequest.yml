@@ -56,7 +56,7 @@ jobs:
       - name: Derive build dir
         id: find-build-dir
         run: |
-            echo "::set-output build_dir=$(conda config --show | grep 'croot: ' | awk -F': ' '{print $2}')/$(conda config --show | grep 'subdir: ' | awk -F': ' '{print $2}'))"
+            echo "::set-output build_dir=$(conda config --show | grep 'croot: ' | awk -F': ' '{print $2}')/$(conda config --show | grep 'subdir: ' | awk -F': ' '{print $2}')"
 
       - name: Do a test build of modified recipes
         run: |
