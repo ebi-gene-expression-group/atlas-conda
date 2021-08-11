@@ -66,7 +66,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }} # This will be on pushes to master in the final version
         run: >-
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do 
-                built_package=$(ls ${{ steps.find-build-dir.outputs.build_dir }}/recipe-*.bz2 | head -n 1);
+                built_package=$(ls ${{ steps.find-build-dir.outputs.build_dir }}/$recipe-*.bz2 | head -n 1);
                 echo "Found built package $built_package for $recipe"
                 anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package --force;
             done
