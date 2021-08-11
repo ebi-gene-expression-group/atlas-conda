@@ -7,6 +7,9 @@ on:
     branches:
       - master
 
+env:
+  CONDA_BUILD_DIR: /usr/share/miniconda/envs/test/conda-bld 
+
 jobs:
   get_changed_folders:  # job 1; # Get changed folders github action, https://github.com/marketplace/actions/get-changed-folders
     name: ${{ matrix.os }}
@@ -52,27 +55,22 @@ jobs:
         with:
             environment-file: .github/build-environment.yml
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
-      
-      - name: Derive build dir
-        id: find-build-dir
-        run: >-
-            subdir=$(conda config --show | grep 'subdir: ' | awk -F': ' '{print $2}');
-            build_topdir=/usr/share/miniconda/envs/test/conda-bld;
-            if [ "$subdir" = 'osx-64' ]; then 
-                build_topdir=/usr/local/miniconda/envs/test/conda-bld; 
-            fi ;
-            echo "::set-output name=build_dir::$build_topdir/$subdir";
+
+      - name: Set build dir
+        run: |
+          mkdir -p $CONDA_BUILD_DIR && conda config --set croot $CONDA_BUILD_DIR
 
       - name: Do a test build of modified recipes
         run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build${{steps.conda-config.outputs.conda_opts}} $recipe; done
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
       
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'pull_request' }} # This will be on pushes to master in the final version
         run: >-
+            arch_subdir=$(conda config --show | grep 'subdir: ' | awk -F': ' '{print $2}');
             for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do 
                 recipe=$(basename $recipe_dir);
-                built_package=$(ls ${{ steps.find-build-dir.outputs.build_dir }}/$recipe-*.bz2 | head -n 1);
+                built_package=$(ls $CONDA_BUILD_DIR/$arch_subdir/$recipe-*.bz2 | head -n 1);
                 echo "Found built package $built_package for $recipe"
                 anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package --force;
             done
