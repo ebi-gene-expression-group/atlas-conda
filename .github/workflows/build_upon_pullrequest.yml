@@ -63,10 +63,10 @@ jobs:
 
       - name: Configure for possible Anaconda upload
         id: conda-config
-        - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-          run: |
-            conda config --set anaconda_upload yes
-            echo "::set-output name=conda_opts:: --user ebi-gene-expression-group --anaconda_token ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}"
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        run: |
+          conda config --set anaconda_upload yes
+          echo "::set-output name=conda_opts:: --user ebi-gene-expression-group --anaconda_token ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}"
 
       - name: Print config
         run: |
