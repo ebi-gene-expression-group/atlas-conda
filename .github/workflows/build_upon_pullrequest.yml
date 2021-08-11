@@ -60,7 +60,7 @@ jobs:
             build_topdir=/usr/local/miniconda/envs/test/conda-bld/;
             if [ "$subdir" = 'osx-64' ]; then 
                 build_topdir=/usr/share/miniconda/envs/test/conda-bld/; 
-            fi
+            fi ;
             echo "::set-output name=build_dir::$build_topdir/$subdir";
 
       - name: Do a test build of modified recipes
