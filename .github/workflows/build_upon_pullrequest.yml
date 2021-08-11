@@ -60,7 +60,7 @@ jobs:
       - name: Derive build dir
         id: find-build-dir
         run: |
-            echo "::set-output build_dir=$(conda config --get croot)/$(conda config --get subdir)"
+            echo "::set-output build_dir=$(conda config --show | grep 'croot: ' | awk -F': ' '{print $2}')/$(conda config --show | grep 'subdir: ' | awk -F': ' '{print $2}'))"
 
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'pull_request' }} # This will be on pushes to master in the final version
