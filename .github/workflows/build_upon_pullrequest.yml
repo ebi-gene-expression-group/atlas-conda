@@ -26,6 +26,7 @@ jobs:
         uses: tj-actions/changed-files@v9.3
         with:
             files: 'recipes'
+            fetch-depth: 0
 
       - name: List all modified recipes
         id: changed-recipes
