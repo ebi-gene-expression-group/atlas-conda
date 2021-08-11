@@ -68,7 +68,7 @@ jobs:
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build${{steps.conda-config.outputs.conda_opts}} $recipe; done
       
       - name: Upload to Anaconda
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'pull_request' }} # This will be on pushes to master in the final version
         run: >-
             for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do 
                 recipe=$(basename $recipe_dir);
