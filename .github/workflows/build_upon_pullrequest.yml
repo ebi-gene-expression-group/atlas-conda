@@ -61,9 +61,12 @@ jobs:
 
       # For pushes rather than pushes, we'll do an upload to conda at the same time
 
-      - if: ${{ github.event_name == 'pull_request' && github.ref == 'refs/heads/master' }}
-        run: |
+      - name: Configure for possible Anaconda upload
+        id: conda-config
+        - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+          run: |
             conda config --set anaconda_upload yes
+            echo "::set-output name=conda_opts:: --user ebi-gene-expression-group --anaconda_token ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}"
 
       - name: Print config
         run: |
@@ -71,4 +74,4 @@ jobs:
 
       - name: Do a test build of modified recipes
         run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build --user ebi-gene-expression-group $recipe; done
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build${{steps.conda-config.outputs.conda_opts}} $recipe; done
