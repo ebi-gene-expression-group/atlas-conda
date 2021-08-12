@@ -43,7 +43,7 @@ jobs:
           path: ~/conda_pkgs_dir
           key:
             ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-            hashFiles('build-environment.yml') }}
+            hashFiles('.github/build-environment.yml') }}
 
       - uses: conda-incubator/setup-miniconda@v2
         with:
