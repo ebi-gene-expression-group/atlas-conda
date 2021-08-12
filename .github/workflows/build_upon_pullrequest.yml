@@ -35,6 +35,7 @@ jobs:
             echo "::set-output name=changed_recipes::$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')"
      
       - name: Cache conda
+        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         uses: actions/cache@v2
         env:
           # Increase this value to reset cache if build-environment.yml has not changed
@@ -46,22 +47,25 @@ jobs:
             hashFiles('.github/build-environment.yml') }}
 
       - uses: conda-incubator/setup-miniconda@v2
+        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         with:
             environment-file: .github/build-environment.yml
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
       
       - name: Derive build dir
+        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         id: find-build-dir
         run: >-
             subdir=$(conda config --show | grep 'subdir: ' | awk -F': ' '{print $2}');
             echo "::set-output name=build_dir::$CONDA_PREFIX/conda-bld/$subdir";
 
       - name: Do a test build of modified recipes
+        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
       
       - name: Upload to Anaconda
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
         run: >-
             for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do 
                 recipe=$(basename $recipe_dir);
