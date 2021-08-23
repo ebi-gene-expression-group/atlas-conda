@@ -10,15 +10,15 @@ source:
 
 build:
   number: 0
-  skip: true # [win32]
+  skip: false # [win32]
 
 requirements:
   build:
   host:
   run:
     - bash
-    - openjdk
-    - gradle
+    - openjdk >=11.0.0.0
+    - gradle >= 7.0.0
 
 test:
   commands:
