@@ -18,7 +18,7 @@ requirements:
   run:
     - bash
     - openjdk >=11.0.0.0
-    - gradle >= 7.0.0
+    - gradle >=7.0.0
 
 test:
   commands:
