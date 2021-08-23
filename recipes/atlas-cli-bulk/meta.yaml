@@ -1,0 +1,31 @@
+{% set version = "0.1.0" %}
+
+package:
+  name: atlas-cli-bulk
+  version: {{ version }}
+
+source:
+  url: https://github.com/ebi-gene-expression-group/atlas-cli-bulk/archive/refs/heads/chore/bioentities-json-bioentities-map-bulk-analytics-json-tasks.tar.gz
+  sha256: 7ea3d3207a01eb251402661b952a10ff7fa56ab45cb16d932cec66bbd4ab3917
+
+build:
+  number: 0
+  skip: true # [win32]
+
+requirements:
+  build:
+  host:
+  run:
+    - bash
+    - openjdk
+    - gradle
+
+test:
+  commands:
+
+about:
+  home: https://github.com/ebi-gene-expression-group/atlas-cli-bulk
+  license: Apache-2.0
+  summary: A minimal Spring Boot wrapper to run (bulk) Expression Atlas tasks from the command line.
+  license_family: Apache
+
