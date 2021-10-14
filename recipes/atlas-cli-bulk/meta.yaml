@@ -5,8 +5,9 @@ package:
   version: {{ version }}
 
 source:
-  url: chore/bioentities-json-bioentities-map-bulk-analytics-json-tasks.tar.gz
-  sha256: 7ea3d3207a01eb251402661b952a10ff7fa56ab45cb16d932cec66bbd4ab3917
+  git_url: https://github.com/ebi-gene-expression-group/atlas-web-bulk
+  git_rev: 166216389-bioentities-jsonl-cli
+
 
 build:
   number: 0
@@ -15,12 +16,13 @@ build:
 
 requirements:
   build:
+    - openjdk >=11.0.0.0
+    - gradle >=7.0.0
   host:
   run:
     - bash
     - bats
     - openjdk >=11.0.0.0
-    - gradle >=7.0.0
 
 test:
   commands:
