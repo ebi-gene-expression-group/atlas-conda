@@ -1,18 +1,18 @@
-{% set version = "0.1.0" %}
+{% set version = "32.0.0" %}
 
 package:
-  name: atlas-cli-bulk
+  name: atlas-web-bulk-cli
   version: {{ version }}
 
 source:
   git_url: https://github.com/ebi-gene-expression-group/atlas-web-bulk
-  git_rev: 166216389-bioentities-jsonl-cli
+  git_rev: develop
 
 
 build:
   number: 0
   skip: false # [win32]
-  script: conda config --set ssl_verify False
+  # script: conda config --set ssl_verify False
 
 requirements:
   build:
