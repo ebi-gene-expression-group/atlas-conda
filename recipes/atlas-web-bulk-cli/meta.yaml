@@ -1,4 +1,4 @@
-{% set version = "36.0.0-cli" %}
+{% set version = "36.0.0" %}
 
 package:
   name: atlas-web-bulk-cli
