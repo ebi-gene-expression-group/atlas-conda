@@ -6,7 +6,7 @@ package:
 
 source:
   git_url: https://github.com/ebi-gene-expression-group/atlas-web-bulk
-  git_rev: feature/exp_design_cli
+  git_rev: {{ version }}-cli
 
 
 build:
