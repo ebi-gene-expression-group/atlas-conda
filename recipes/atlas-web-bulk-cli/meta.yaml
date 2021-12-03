@@ -1,4 +1,4 @@
-{% set version = "36.0.0" %}
+{% set version = "36.2.0" %}
 
 package:
   name: atlas-web-bulk-cli
@@ -6,7 +6,7 @@ package:
 
 source:
   git_url: https://github.com/ebi-gene-expression-group/atlas-web-bulk
-  git_rev: 36.0.0-cli
+  git_rev: {{ version }}-cli
 
 
 build:
