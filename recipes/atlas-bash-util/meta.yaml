@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/atlas-bash-util/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 71e3780c51fd0f5a12707e26d6b379c8314fd80356398732ffe9e26183e56bb8
+  sha256: 789f91e541825c16d2faf712924afb8528e2eff8a13130a8a49990c322fccd25
 
 build:
   number: 0
