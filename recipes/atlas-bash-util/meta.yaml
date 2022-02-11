@@ -1,4 +1,4 @@
-{% set version = "0.0.2" %}
+{% set version = "0.0.9" %}
 
 package:
   name: atlas-bash-util
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/atlas-bash-util/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: b1af61b8cf529bd75d148bef2b708b98019f780b8e8748e7bc414dba50cb9b5e
+  sha256: f6ff2f3afad0833228b0bb3f6e710d167b5d971e0613f2f751b5b1d033550101
 
 build:
   number: 0
@@ -26,4 +26,3 @@ about:
   license: GPL-3
   summary: Generic Bash functions used to build Expression Atlas
   license_family: GPL3
-
