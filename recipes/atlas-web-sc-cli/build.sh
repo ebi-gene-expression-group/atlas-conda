@@ -7,5 +7,5 @@ mkdir -p $CLI_DIR
 
 cp cli/build/libs/atlas-cli-sc.jar $CLI_DIR
 rm -rf cli
-chmod a+x $RECIPE_DIR/atlas-cli-sc.sh
-cp $RECIPE_DIR/atlas-cli-sc.sh $PREFIX/bin/
+chmod a+x $RECIPE_DIR/atlas-web-sc-scli.sh
+cp $RECIPE_DIR/atlas-web-sc-scli.sh $PREFIX/bin/
