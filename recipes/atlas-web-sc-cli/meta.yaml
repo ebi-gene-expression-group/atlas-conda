@@ -1,4 +1,4 @@
-{% set version = "11.1-cli" %}
+{% set version = "11.2-cli" %}
 
 package:
   name: atlas-web-single-cell-cli
