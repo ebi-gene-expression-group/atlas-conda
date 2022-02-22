@@ -2,7 +2,7 @@
 
 package:
   name: atlas-web-single-cell-cli
-  version: {{ version }}-cli
+  version: {{ version }}
 
 source:
   git_url: https://github.com/ebi-gene-expression-group/atlas-web-single-cell
