@@ -1,12 +1,12 @@
-{% set version = "19.0.0" %}
+{% set version = "11.1-cli" %}
 
 package:
-  name: atlas-web-single-cell
+  name: atlas-web-single-cell-cli
   version: {{ version }}
 
 source:
   git_url: https://github.com/ebi-gene-expression-group/atlas-web-single-cell
-  git_rev: feature/181229554-single-cell-cli
+  git_rev: {{ version }}
 
 
 build:
