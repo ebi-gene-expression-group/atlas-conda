@@ -41,6 +41,7 @@ jobs:
         run: |
             changed=$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')
             changed_no_noarch=""
+            yq --help
             for recipe in $changed; do
               noarch=$(yq e 'build.noarch' $recipe/meta.yaml)
               if [[ -z "$noarch" ]]; then
@@ -58,7 +59,6 @@ jobs:
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
             status=0
-            yq --help
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
               recipe_in_meta=$(yq e 'package.name' $recipe/meta.yaml)
               if [[ "$recipe" != "$recipe_in_meta" ]]; then
