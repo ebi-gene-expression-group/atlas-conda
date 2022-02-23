@@ -24,7 +24,7 @@ jobs:
             fetch-depth: 0
 
       - name: Install yq - portable yaml processor
-        uses: mikefarah/yq@v4.20.2
+        uses: uses: chrisdickinson/setup-yq@latest
 
       - name: Get changed files
         id: changed-files
@@ -56,7 +56,7 @@ jobs:
             status=0
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
               recipe_in_meta=$(yq 'package.name' $recipe/meta.yaml)
-              if [[ "$recipe" != "$recipe_in_meta" ]];
+              if [[ "$recipe" != "$recipe_in_meta" ]]; then
                 echo "Recipe directory is        : $recipe"
                 echo "Recipe name in meta.yaml is: $recipe_in_meta"
                 echo "They should be the same."
