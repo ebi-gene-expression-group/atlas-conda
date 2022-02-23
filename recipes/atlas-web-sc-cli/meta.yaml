@@ -1,7 +1,7 @@
 {% set version = "11.2" %}
 
 package:
-  name: atlas-web-single-cell-cli
+  name: atlas-web-sc-cli
   version: {{ version }}
 
 source:
@@ -10,8 +10,9 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   skip: false # [win32]
+  noarch: generic
 
 requirements:
   build:

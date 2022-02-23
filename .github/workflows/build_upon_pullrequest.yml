@@ -23,6 +23,9 @@ jobs:
         with:
             fetch-depth: 0
 
+      - name: Install yq - portable yaml processor
+        uses: mikefarah/yq@v4.20.2
+
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v9.3
@@ -32,8 +35,37 @@ jobs:
       - name: List all modified recipes
         id: changed-recipes
         run: |
-            echo "::set-output name=changed_recipes::$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')"
-     
+            changed=$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')
+            changed_no_noarch=""
+            for recipe in $changed; do
+              noarch=$(yq 'build.noarch' $recipe/meta.yaml)
+              if [[ -z "$noarch" ]]; then
+                # if noarch is empty, then this recipe is not no arch and should be built for mac and linux.
+                changed_no_noarch=" "+$recipe
+              fi
+            done
+            changed_noarch
+            if [[ "${{ runner.os }}" == "macos-latest" ]]; then
+              changed=$(echo $changed_noarch | xargs) # xarg to remove any trailing spaces.
+            fi
+            echo "::set-output name=changed_recipes::$changed"
+
+      - name: Check directory matches recipe name
+        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
+        run: |
+            status=0
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
+              recipe_in_meta=$(yq 'package.name' $recipe/meta.yaml)
+              if [[ "$recipe" != "$recipe_in_meta" ]];
+                echo "Recipe directory is        : $recipe"
+                echo "Recipe name in meta.yaml is: $recipe_in_meta"
+                echo "They should be the same."
+                status=1
+              fi
+            done
+            exit $status
+
+
       - name: Cache conda
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         uses: actions/cache@v2
@@ -51,7 +83,7 @@ jobs:
         with:
             environment-file: .github/build-environment.yml
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
-      
+
       - name: Derive build dir
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         id: find-build-dir
@@ -63,11 +95,11 @@ jobs:
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
-      
+
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
         run: >-
-            for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do 
+            for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
                 recipe=$(basename $recipe_dir);
                 built_package=$(ls ${{ steps.find-build-dir.outputs.build_dir }}/$recipe-*.bz2 | head -n 1);
                 echo "Found built package $built_package for $recipe"
