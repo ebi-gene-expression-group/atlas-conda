@@ -25,6 +25,8 @@ jobs:
 
       - name: Install yq
         uses: chrisdickinson/setup-yq@latest
+        with:
+          yq-version: 4.20.2
 
       - name: Get changed files
         id: changed-files
