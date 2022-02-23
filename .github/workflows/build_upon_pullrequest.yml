@@ -25,8 +25,10 @@ jobs:
 
       - name: Install yq
         uses: chrisdickinson/setup-yq@latest
-        with:
-          yq-version: 4.20.2
+        # This uses a rather old yq version, but setting the version doesn't work well
+        # note that this might break in the future if setup-yq uses a version > 4.18 of yq
+        #  with:
+        #  yq-version: 4.20.2
 
       - name: Get changed files
         id: changed-files
@@ -40,7 +42,7 @@ jobs:
             changed=$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')
             changed_no_noarch=""
             for recipe in $changed; do
-              noarch=$(yq 'build.noarch' $recipe/meta.yaml)
+              noarch=$(yq e 'build.noarch' $recipe/meta.yaml)
               if [[ -z "$noarch" ]]; then
                 # if noarch is empty, then this recipe is not no arch and should be built for mac and linux.
                 changed_no_noarch=" "+$recipe
@@ -57,7 +59,7 @@ jobs:
         run: |
             status=0
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
-              recipe_in_meta=$(yq 'package.name' $recipe/meta.yaml)
+              recipe_in_meta=$(yq e 'package.name' $recipe/meta.yaml)
               if [[ "$recipe" != "$recipe_in_meta" ]]; then
                 echo "Recipe directory is        : $recipe"
                 echo "Recipe name in meta.yaml is: $recipe_in_meta"
