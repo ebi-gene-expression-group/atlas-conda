@@ -58,6 +58,7 @@ jobs:
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
             status=0
+            yq --help
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
               recipe_in_meta=$(yq e 'package.name' $recipe/meta.yaml)
               if [[ "$recipe" != "$recipe_in_meta" ]]; then
