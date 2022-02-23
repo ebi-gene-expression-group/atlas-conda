@@ -41,9 +41,8 @@ jobs:
         run: |
             changed=$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')
             changed_no_noarch=""
-            yq --help
             for recipe in $changed; do
-              noarch=$(yq e 'build.noarch' $recipe/meta.yaml)
+              noarch=$(yq r $recipe/meta.yaml 'build.noarch')
               if [[ -z "$noarch" ]]; then
                 # if noarch is empty, then this recipe is not no arch and should be built for mac and linux.
                 changed_no_noarch=" "+$recipe
@@ -51,7 +50,7 @@ jobs:
             done
             changed_noarch
             if [[ "${{ runner.os }}" == "macos-latest" ]]; then
-              changed=$(echo $changed_noarch | xargs) # xarg to remove any trailing spaces.
+              changed=$(echo $changed_no_noarch | xargs) # xarg to remove any trailing spaces.
             fi
             echo "::set-output name=changed_recipes::$changed"
 
@@ -60,7 +59,7 @@ jobs:
         run: |
             status=0
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
-              recipe_in_meta=$(yq e 'package.name' $recipe/meta.yaml)
+              recipe_in_meta=$(yq r $recipe/meta.yaml 'package.name')
               if [[ "$recipe" != "$recipe_in_meta" ]]; then
                 echo "Recipe directory is        : $recipe"
                 echo "Recipe name in meta.yaml is: $recipe_in_meta"
