@@ -23,8 +23,8 @@ jobs:
         with:
             fetch-depth: 0
 
-      - name: Install yq - portable yaml processor
-        uses: uses: chrisdickinson/setup-yq@latest
+      - name: Install yq
+        uses: chrisdickinson/setup-yq@latest
 
       - name: Get changed files
         id: changed-files
