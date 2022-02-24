@@ -104,7 +104,7 @@ jobs:
               for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
                 recipe=$(basename $recipe_dir);
                 if [ -f $CONDA_PREFIX/conda-bld/$dir/$recipe-*.bz2 ]; then
-                  pkg=$(ls ${{ steps.find-build-dir.outputs.build_dir }}/$recipe-*.bz2 | head -n 1)
+                  pkg=$(ls $CONDA_PREFIX/conda-bld/$dir/$recipe-*.bz2 | head -n 1)
                   packages=$packages" "$pkg
                 fi
               done
