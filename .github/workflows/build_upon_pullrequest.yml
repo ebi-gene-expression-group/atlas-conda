@@ -23,6 +23,13 @@ jobs:
         with:
             fetch-depth: 0
 
+      - name: Install yq
+        uses: chrisdickinson/setup-yq@latest
+        # This uses a rather old yq version, but setting the version doesn't work well
+        # note that this might break in the future if setup-yq uses a version > 4.18 of yq
+        #  with:
+        #  yq-version: 4.20.2
+
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v9.3
@@ -32,8 +39,38 @@ jobs:
       - name: List all modified recipes
         id: changed-recipes
         run: |
-            echo "::set-output name=changed_recipes::$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')"
-     
+            changed=$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')
+            changed_no_noarch=""
+            for recipe in $changed; do
+              noarch=$(grep -v '{' $recipe/meta.yaml | yq r - 'build.noarch')
+              if [[ -z "$noarch" ]]; then
+                # if noarch is empty, then this recipe is not no arch and should be built for mac and linux.
+                changed_no_noarch=" "+$recipe
+              fi
+            done
+            if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+              echo "Running on macos, setting changed to only those that are not noarch"
+              changed=$(echo $changed_no_noarch | xargs) # xarg to remove any trailing spaces.
+            fi
+            echo "::set-output name=changed_recipes::$changed"
+
+      - name: Check directory matches recipe name
+        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
+        run: |
+            status=0
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
+              recipe_in_meta=$(grep -v '{' $recipe/meta.yaml | yq r - 'package.name')
+              recipe_dir=$(echo $recipe | sed 's+recipes/++' )
+              if [[ "$recipe_dir" != "$recipe_in_meta" ]]; then
+                echo "Recipe directory is        : $recipe_dir"
+                echo "Recipe name in meta.yaml is: $recipe_in_meta"
+                echo "They should be the same."
+                status=1
+              fi
+            done
+            exit $status
+
+
       - name: Cache conda
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         uses: actions/cache@v2
@@ -51,25 +88,34 @@ jobs:
         with:
             environment-file: .github/build-environment.yml
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
-      
-      - name: Derive build dir
-        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
-        id: find-build-dir
-        run: >-
-            subdir=$(conda config --show | grep 'subdir: ' | awk -F': ' '{print $2}');
-            echo "::set-output name=build_dir::$CONDA_PREFIX/conda-bld/$subdir";
 
       - name: Do a test build of modified recipes
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
-      
+
+      - name: Derive built objects
+        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
+        id: find-built-objects
+        run: |
+            subdirs=$(conda config --show | yq r - 'subdirs' | sed 's/- //' | tr '\n' ' ')
+            packages=""
+            for dir in $subdirs; do
+              for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
+                recipe=$(basename $recipe_dir);
+                if [ -f $CONDA_PREFIX/conda-bld/$dir/$recipe-*.bz2 ]; then
+                  pkg=$(ls $CONDA_PREFIX/conda-bld/$dir/$recipe-*.bz2 | head -n 1)
+                  packages=$packages" "$pkg
+                fi
+              done
+            done
+
+            echo "::set-output name=built_objects::$(echo $packages | xargs)";
+
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
         run: >-
-            for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do 
-                recipe=$(basename $recipe_dir);
-                built_package=$(ls ${{ steps.find-build-dir.outputs.build_dir }}/$recipe-*.bz2 | head -n 1);
-                echo "Found built package $built_package for $recipe"
+            for built_package in ${{ steps.find-built-objects.outputs.built_objects }}; do
+                echo "Found built package $built_package to upload...";
                 anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
             done
