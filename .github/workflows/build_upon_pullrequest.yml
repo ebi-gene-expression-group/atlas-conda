@@ -89,24 +89,33 @@ jobs:
             environment-file: .github/build-environment.yml
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
 
-      - name: Derive build dir
-        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
-        id: find-build-dir
-        run: >-
-            subdir=$(conda config --show | grep 'subdir: ' | awk -F': ' '{print $2}');
-            echo "::set-output name=build_dir::$CONDA_PREFIX/conda-bld/$subdir";
-
       - name: Do a test build of modified recipes
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
 
+      - name: Derive built objects
+        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
+        id: find-built-objects
+        run: |
+            subdirs=$(conda config --show | yq r - 'subdirs' | sed 's/- //' | tr '\n' ' ')
+            packages=""
+            for dir in $subdirs; do
+              for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
+                recipe=$(basename $recipe_dir);
+                if [ -f $CONDA_PREFIX/conda-bld/$dir/$recipe-*.bz2 ]; then
+                  pkg=$(ls ${{ steps.find-build-dir.outputs.build_dir }}/$recipe-*.bz2 | head -n 1)
+                  packages=$packages" "$pkg
+                fi
+              done
+            done
+
+            echo "::set-output name=built_objects::$(echo $packages | xargs)";
+
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
         run: >-
-            for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
-                recipe=$(basename $recipe_dir);
-                built_package=$(ls ${{ steps.find-build-dir.outputs.build_dir }}/$recipe-*.bz2 | head -n 1);
-                echo "Found built package $built_package for $recipe"
+            for built_package in ${{ steps.find-built-objects.outputs.built_objects }}; do
+                echo "Found built package $built_package to upload...";
                 anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
             done
