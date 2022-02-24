@@ -42,7 +42,7 @@ jobs:
             changed=$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')
             changed_no_noarch=""
             for recipe in $changed; do
-              noarch=$(grep -v '^{' $recipe/meta.yaml | yq r - 'build.noarch')
+              noarch=$(grep -v '{' $recipe/meta.yaml | yq r - 'build.noarch')
               if [[ -z "$noarch" ]]; then
                 # if noarch is empty, then this recipe is not no arch and should be built for mac and linux.
                 changed_no_noarch=" "+$recipe
@@ -59,9 +59,10 @@ jobs:
         run: |
             status=0
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
-              recipe_in_meta=$(grep -v '^{' $recipe/meta.yaml | yq r - 'package.name')
-              if [[ "$recipe" != "$recipe_in_meta" ]]; then
-                echo "Recipe directory is        : $recipe"
+              recipe_in_meta=$(grep -v '{' $recipe/meta.yaml | yq r - 'package.name')
+              recipe_dir=$(echo $recipe | sed 's+recipes/++' )
+              if [[ "$recipe_dir" != "$recipe_in_meta" ]]; then
+                echo "Recipe directory is        : $recipe_dir"
                 echo "Recipe name in meta.yaml is: $recipe_in_meta"
                 echo "They should be the same."
                 status=1
