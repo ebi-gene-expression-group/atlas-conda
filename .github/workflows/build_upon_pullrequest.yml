@@ -48,8 +48,8 @@ jobs:
                 changed_no_noarch=" "+$recipe
               fi
             done
-            changed_noarch
             if [[ "${{ runner.os }}" == "macos-latest" ]]; then
+              echo "Running on macos, setting changed to only those that are not noarch"
               changed=$(echo $changed_no_noarch | xargs) # xarg to remove any trailing spaces.
             fi
             echo "::set-output name=changed_recipes::$changed"
