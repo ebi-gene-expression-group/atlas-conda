@@ -48,7 +48,7 @@ jobs:
                 changed_no_noarch=" "+$recipe
               fi
             done
-            if [[ "${{ runner.os }}" == "macos-latest" ]]; then
+            if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
               echo "Running on macos, setting changed to only those that are not noarch"
               changed=$(echo $changed_no_noarch | xargs) # xarg to remove any trailing spaces.
             fi
