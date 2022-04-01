@@ -15,7 +15,9 @@ requirements:
   build:
   host:
   run:
+    - coreutils
     - bash
+    - grep
 
 test:
   commands:
