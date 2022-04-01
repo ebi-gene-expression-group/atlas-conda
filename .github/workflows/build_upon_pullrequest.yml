@@ -45,7 +45,7 @@ jobs:
               noarch=$(grep -v '{' $recipe/meta.yaml | yq r - 'build.noarch')
               if [[ -z "$noarch" ]]; then
                 # if noarch is empty, then this recipe is not no arch and should be built for mac and linux.
-                changed_no_noarch=" "+$recipe
+                changed_no_noarch=" $recipe"
               fi
             done
             if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
