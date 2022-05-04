@@ -10,11 +10,14 @@ source:
 
 build:
   number: 0
+  noarch: generic
 
 requirements:
   build:
   host:
   run:
+    - coreutils
+    - grep
     - bash
     - libgfortran
     - perl-atlas-modules
