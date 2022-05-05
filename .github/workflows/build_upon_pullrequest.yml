@@ -84,6 +84,8 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         with:
+            auto-activate-base: true
+            activate-environment: ""
             environment-file: .github/build-environment.yml
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
 
