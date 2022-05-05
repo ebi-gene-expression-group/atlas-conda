@@ -9,7 +9,7 @@ source:
     sha256: a0fdfbda45a5e949f9d3edc499cea11bd9204007bdca10f67273ff5eff32b621
 
 build:
-  number: 0
+  number: 1
   noarch: generic
 
 requirements:
@@ -25,6 +25,7 @@ requirements:
     - r-optparse=1.6.0
     - r-reshape2 
     - r-data.table
+    - libiconv
 
 test:
   commands:
