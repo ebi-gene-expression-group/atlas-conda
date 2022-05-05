@@ -20,7 +20,7 @@ requirements:
     - grep
     - bash
     - libgfortran
-    - perl-atlas-modules
+    - perl-atlas-modules>=0.3.1
     - perl-dbd-pg
     - r-optparse=1.6.0
     - r-reshape2 
