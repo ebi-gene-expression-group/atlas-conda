@@ -96,7 +96,7 @@ jobs:
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         id: find-built-objects
         run: |
-            subdirs=$(conda config --show | yq r - 'subdirs' | sed 's/- //' | tr '\n' ' ')
+            subdirs=$(conda config --show | yq '.subdirs' | sed 's/- //' | tr '\n' ' ')
             packages=""
             for dir in $subdirs; do
               for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
