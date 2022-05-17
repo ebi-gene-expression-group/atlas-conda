@@ -35,7 +35,6 @@ jobs:
             files: 'recipes'
 
       - name: Cache conda
-        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         uses: actions/cache@v2
         env:
           # Increase this value to reset cache if build-environment.yml has not changed
@@ -47,7 +46,6 @@ jobs:
             hashFiles('.github/build-environment.yml') }}
 
       - uses: conda-incubator/setup-miniconda@v2
-        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         with:
             miniconda-version: 'latest'
             activate-environment: test
