@@ -1,5 +1,5 @@
 {% set name = "atlas-anndata" %}
-{% set version = "0.1.1" %}
+{% set version = "0.1.2" %}
 
 package:
   name: atlas-anndata
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/atlas_anndata-{{ version }}.tar.gz
-  sha256: 50f222d3b75636c21088aa2e086ea8e3c608cc0cea4030b7e5ce03a8cfd9969b
+  sha256: c2032f395a6d1558a71818f74bd09fbcba0a9277edda2e07a8e2142aa48aef06
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
