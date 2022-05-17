@@ -75,7 +75,7 @@ jobs:
         run: |
             status=0
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
-              recipe_in_meta=$(grep -v '{' $recipe | yq '.package.name')
+              recipe_in_meta=$(grep -v '{' $recipe/meta.yaml | yq '.package.name')
               recipe_dir=$(echo $recipe | sed 's+recipes/++' )
               if [[ "$recipe_dir" != "$recipe_in_meta" ]]; then
                 echo "Recipe directory is        : $recipe_dir"
