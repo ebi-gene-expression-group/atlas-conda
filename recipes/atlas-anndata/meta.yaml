@@ -34,6 +34,9 @@ test:
     - atlas_anndata
   commands:
     - pip check
+    - make_bundle_from_anndata --help
+    - validate_anndata_with_config --help
+
   requires:
     - pip
 
