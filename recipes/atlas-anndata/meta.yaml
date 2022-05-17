@@ -1,5 +1,5 @@
 {% set name = "atlas-anndata" %}
-{% set version = "0.1.0" %}
+{% set version = "0.1.1" %}
 
 package:
   name: atlas-anndata
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/atlas_anndata-{{ version }}.tar.gz
-  sha256: c3110472112f34016b6f8db4033e076d01ffad17e7a9df5ca3520b897bbe1408
+  sha256: 50f222d3b75636c21088aa2e086ea8e3c608cc0cea4030b7e5ce03a8cfd9969b
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
@@ -15,19 +15,19 @@ build:
 
 requirements:
   host:
-    - pip<19
     - python<3.9
-    - cmake <3.20
   run:
     - click
-    - pip<19
-    - cmake <3.20
     - jsonschema
     - python<3.9
     - pyyaml
-    - scanpy >1.1.2
-    - scanpy-scripts >1.1.3
+    - scanpy-scripts >1.1.5
     - snakemake
+    - peppy<0.31.2 
+    - pillow>=8.3.2
+    - xlrd<2.0
+    - cython
+    - setuptools-scm
 
 test:
   imports:
