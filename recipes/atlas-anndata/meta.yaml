@@ -1,0 +1,52 @@
+{% set name = "atlas-anndata" %}
+{% set version = "0.1.2" %}
+
+package:
+  name: atlas-anndata
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/atlas_anndata-{{ version }}.tar.gz
+  sha256: c2032f395a6d1558a71818f74bd09fbcba0a9277edda2e07a8e2142aa48aef06
+
+build:
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+
+requirements:
+  host:
+    - python<3.9
+  run:
+    - click
+    - jsonschema
+    - python<3.9
+    - pyyaml
+    - scanpy-scripts >1.1.5
+    - snakemake
+    - peppy<0.31.2 
+    - pillow>=8.3.2
+    - xlrd<2.0
+    - cython
+    - setuptools-scm
+
+test:
+  imports:
+    - atlas_anndata
+  commands:
+    - pip check
+    - make_bundle_from_anndata --help
+    - validate_anndata_with_config --help
+
+  requires:
+    - pip
+
+about:
+  home: https://github.com/ebi-gene-expression-group/atlas-anndata
+  summary: Functions for preparing annData files for experiment inclusion in Single cell Expression Atlas
+  license: Apache-2.0
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - pinin4fjords
+    - pcm32

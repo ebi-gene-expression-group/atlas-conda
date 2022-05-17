@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
       matrix:
-        os: ["ubuntu-latest", "macos-latest"]
+        os: ["self-hosted", "macos-latest"]
     defaults:
       run:
         shell: bash -l {0}
@@ -34,6 +34,24 @@ jobs:
         with:
             files: 'recipes'
 
+      - name: Cache conda
+        uses: actions/cache@v2
+        env:
+          # Increase this value to reset cache if build-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+            hashFiles('.github/build-environment.yml') }}
+
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+            miniconda-version: 'latest'
+            activate-environment: test
+            environment-file: .github/build-environment.yml
+            channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
+
       - name: List all modified recipes
         id: changed-recipes
         run: |
@@ -41,7 +59,7 @@ jobs:
             changed_no_noarch=""
             for recipe in $changed; do
               noarch=$(grep -v '{' $recipe/meta.yaml | yq '.build.noarch')
-              if [[ -z "$noarch" ]]; then
+              if [[ "$noarch" == 'null' ]]; then
                 # if noarch is empty, then this recipe is not no arch and should be built for mac and linux.
                 changed_no_noarch=" $recipe"
               fi
@@ -67,25 +85,6 @@ jobs:
               fi
             done
             exit $status
-
-
-      - name: Cache conda
-        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
-        uses: actions/cache@v2
-        env:
-          # Increase this value to reset cache if build-environment.yml has not changed
-          CACHE_NUMBER: 0
-        with:
-          path: ~/conda_pkgs_dir
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-            hashFiles('.github/build-environment.yml') }}
-
-      - uses: conda-incubator/setup-miniconda@v2
-        if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
-        with:
-            environment-file: .github/build-environment.yml
-            channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
 
       - name: Do a test build of modified recipes
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
