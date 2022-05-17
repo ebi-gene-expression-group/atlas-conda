@@ -59,7 +59,7 @@ jobs:
             changed_no_noarch=""
             for recipe in $changed; do
               noarch=$(grep -v '{' $recipe/meta.yaml | yq '.build.noarch')
-              if [[ -z "$noarch" ]]; then
+              if [[ "$noarch" != 'null' ]]; then
                 # if noarch is empty, then this recipe is not no arch and should be built for mac and linux.
                 changed_no_noarch=" $recipe"
               fi
