@@ -47,7 +47,6 @@ jobs:
 
       - uses: conda-incubator/setup-miniconda@v2
         with:
-            mamba-version: "*"
             miniconda-version: 'latest'
             activate-environment: test
             environment-file: .github/build-environment.yml
@@ -90,13 +89,13 @@ jobs:
       - name: Do a test build of modified recipes
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do mamba build $recipe; done
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
 
       - name: Derive built objects
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         id: find-built-objects
         run: |
-            subdirs=$(mamba config --show | yq '.subdirs' | sed 's/- //' | tr '\n' ' ')
+            subdirs=$(conda config --show | yq '.subdirs' | sed 's/- //' | tr '\n' ' ')
             packages=""
             for dir in $subdirs; do
               for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
