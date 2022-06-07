@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/atlas_anndata-{{ version }}.tar.gz
-  sha256: 0ab90534e77a25ecff94109ebf6096ed6b6025b0d3d9cbc0bcd596c9247a9bad
+  sha256: 6d983d217e5a5122add7214bac90624aa9a6887cf8c782e9596b984ea49e03e0
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
