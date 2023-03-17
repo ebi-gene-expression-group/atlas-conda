@@ -1,5 +1,5 @@
 {% set name = "atlas-anndata" %}
-{% set version = "0.1.10" %}
+{% set version = "0.1.9" %}
 
 package:
   name: atlas-anndata
@@ -11,7 +11,7 @@ source:
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  number: 1
 
 requirements:
   host:
@@ -23,7 +23,7 @@ requirements:
     - pyyaml
     - scanpy-scripts >1.1.5
     - snakemake<7.8.0
-    - peppy<0.31.2 
+    - peppy<0.31.2
     - pillow>=8.3.2
     - xlrd<2.0
     - cython
@@ -50,4 +50,3 @@ about:
 extra:
   recipe-maintainers:
     - pmb59
-    - pinin4fjords
