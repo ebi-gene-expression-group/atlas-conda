@@ -1,5 +1,5 @@
 {% set name = "atlas-anndata" %}
-{% set version = "0.1.9" %}
+{% set version = "0.1.10" %}
 
 package:
   name: atlas-anndata
@@ -28,7 +28,7 @@ requirements:
     - xlrd<2.0
     - cython
     - setuptools-scm
-    - mamba
+    - mamba>=1.3.1
 
 test:
   imports:
@@ -49,6 +49,5 @@ about:
 
 extra:
   recipe-maintainers:
-    - pinin4fjords
-    - pcm32
     - pmb59
+    - pinin4fjords
