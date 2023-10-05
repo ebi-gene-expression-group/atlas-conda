@@ -1,4 +1,4 @@
-{% set version = "14.0.0-beta-cli" %}
+{% set version = "14.0.0" %}
 
 package:
   name: atlas-web-sc-cli
