@@ -16,13 +16,13 @@ build:
 
 requirements:
   build:
-    - openjdk =11.0.0.0
-    - gradle =7.0.0
+    - openjdk=11
+    - gradle=7
   host:
   run:
     - bash
     - bats
-    - openjdk =11.0.0.0
+    - openjdk=11
 
 test:
   commands:
