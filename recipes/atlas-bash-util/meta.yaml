@@ -1,4 +1,4 @@
-{% set version = "0.2.0" %}
+{% set version = "0.2.1" %}
 
 package:
   name: atlas-bash-util
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/atlas-bash-util/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: be9347a0790f9d7901d462d48c9ff5e6f8d8a4bc277d9b63f73cd457e3cf8630
+  sha256: e08e5e2c2ed9968c91f297032e703f22d3a46a3ad64afd65c3181e5c9d4e6ac5
 
 build:
   number: 0
@@ -25,7 +25,9 @@ test:
     - which atlas-bash-util
 
 about:
-  home: https://github.com/ebi-gene-expression-group/atlas-bash-utils
+  home: https://github.com/ebi-gene-expression-group/atlas-bash-util
   license: GPL-3
-  summary: Generic Bash functions used to build Expression Atlas
+  summary: Generic Bash functions used to build Expression Atlas.
+  description: |
+     It includes support for LSF and SLURM schedulers.
   license_family: GPL3
