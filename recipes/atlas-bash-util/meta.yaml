@@ -1,4 +1,4 @@
-{% set version = "0.2.3" %}
+{% set version = "0.2.4" %}
 
 package:
   name: atlas-bash-util
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/atlas-bash-util/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 4dc2e86634169e69df02648943722259b30b6c28a960741c54e2ccf9484b4cde
+  sha256: abee5c1f967548e0b7cce9200ed8c13acffa32c93b2aa4618c01dabb253bb8fa
 
 build:
   number: 0
