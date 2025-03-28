@@ -109,9 +109,6 @@ jobs:
 
             echo "::set-output name=built_objects::$(echo $packages | xargs)";
 
-      - name: Print changed recipes output
-        run: echo "Changed recipes: ${{ steps.changed-recipes.outputs.changed_recipes }}"
-
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
         run: >-
