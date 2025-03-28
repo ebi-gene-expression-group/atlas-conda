@@ -68,7 +68,7 @@ jobs:
               echo "Running on macos, setting changed to only those that are not noarch"
               changed=$(echo $changed_no_noarch | xargs) # xarg to remove any trailing spaces.
             fi
-            echo "::set-output name=changed_recipes::$changed"
+            echo "changed_recipes=$changed" >> $GITHUB_OUTPUT
 
       - name: Check directory matches recipe name
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
