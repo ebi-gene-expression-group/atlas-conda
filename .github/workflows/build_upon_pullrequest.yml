@@ -38,7 +38,7 @@ jobs:
         uses: actions/cache@v4
         env:
           # Increase this value to reset cache if build-environment.yml has not changed
-          CACHE_NUMBER: 0
+          CACHE_NUMBER: 1
         with:
           path: ~/conda_pkgs_dir
           key:
@@ -108,6 +108,9 @@ jobs:
             done
 
             echo "::set-output name=built_objects::$(echo $packages | xargs)";
+
+      - name: Print changed recipes output
+        run: echo "Changed recipes: ${{ steps.changed-recipes.outputs.changed_recipes }}"
 
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
