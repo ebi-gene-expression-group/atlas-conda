@@ -114,5 +114,5 @@ jobs:
         run: >-
             for built_package in ${{ steps.find-built-objects.outputs.built_objects }}; do
                 echo "Found built package $built_package to upload...";
-                anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
+                # anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
             done
