@@ -53,6 +53,7 @@ jobs:
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
 
       - name: List all modified recipes
+        if: ${{ steps.changed-files.outputs.all_modified_files != '' }}
         id: changed-recipes
         run: |
             changed=$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')
