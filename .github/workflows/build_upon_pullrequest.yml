@@ -19,7 +19,7 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
         with:
             fetch-depth: 0
 
@@ -30,7 +30,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@v9.3
         with:
             files: 'recipes'
 
@@ -53,7 +53,6 @@ jobs:
             channels: ebi-gene-expression-group,conda-forge,bioconda,defaults
 
       - name: List all modified recipes
-        if: ${{ steps.changed-files.outputs.all_modified_files != '' }}
         id: changed-recipes
         run: |
             changed=$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')
@@ -69,7 +68,7 @@ jobs:
               echo "Running on macos, setting changed to only those that are not noarch"
               changed=$(echo $changed_no_noarch | xargs) # xarg to remove any trailing spaces.
             fi
-            echo "changed_recipes=$changed" >> $GITHUB_OUTPUT
+            echo "::set-output name=changed_recipes::$changed"
 
       - name: Check directory matches recipe name
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
@@ -108,7 +107,7 @@ jobs:
               done
             done
 
-            echo "built_objects=$(echo $packages | xargs)"  >> $GITHUB_OUTPUT
+            echo "::set-output name=built_objects::$(echo $packages | xargs)";
 
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
