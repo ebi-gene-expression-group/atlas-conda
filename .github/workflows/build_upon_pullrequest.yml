@@ -110,7 +110,7 @@ jobs:
             echo "built_objects=$(echo $packages | xargs)"  >> $GITHUB_OUTPUT
 
       - name: Upload to Anaconda
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master_test' && steps.changed-recipes.outputs.changed_recipes != '' }}
         run: >-
             for built_package in ${{ steps.find-built-objects.outputs.built_objects }}; do
                 echo "Found built package $built_package to upload...";
