@@ -2,10 +2,10 @@ name: Build conda packages upon pull request
 on:
   pull_request:
     branches:
-      - master
+      - master_test
   push:
     branches:
-      - master
+      - master_test
 
 jobs:
   get_changed_folders:  # job 1; # Get changed folders github action, https://github.com/marketplace/actions/get-changed-folders
