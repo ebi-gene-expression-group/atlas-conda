@@ -2,10 +2,10 @@ name: Build conda packages upon pull request
 on:
   pull_request:
     branches:
-      - master
+      - master_test
   push:
     branches:
-      - master
+      - master_test
 
 jobs:
   get_changed_folders:  # job 1; # Get changed folders github action, https://github.com/marketplace/actions/get-changed-folders
@@ -30,7 +30,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@v9.3
         with:
             files: 'recipes'
 
@@ -68,7 +68,7 @@ jobs:
               echo "Running on macos, setting changed to only those that are not noarch"
               changed=$(echo $changed_no_noarch | xargs) # xarg to remove any trailing spaces.
             fi
-            echo "::set-output name=changed_recipes::$changed"
+            echo "changed_recipes=$changed" >> $GITHUB_OUTPUT
 
       - name: Check directory matches recipe name
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
@@ -107,12 +107,12 @@ jobs:
               done
             done
 
-            echo "::set-output name=built_objects::$(echo $packages | xargs)";
+            echo "built_objects=$(echo $packages | xargs)"  >> $GITHUB_OUTPUT
 
       - name: Upload to Anaconda
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master_test' && steps.changed-recipes.outputs.changed_recipes != '' }}
         run: >-
             for built_package in ${{ steps.find-built-objects.outputs.built_objects }}; do
                 echo "Found built package $built_package to upload...";
-                anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
+                # anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
             done
