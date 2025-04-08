@@ -106,15 +106,18 @@ jobs:
                 fi
               done
             done
+            echo "${packages}"
 
             echo "built_objects=$(echo $packages | xargs)"  >> $GITHUB_OUTPUT
 
       - name: Upload to Anaconda
         # if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master_test' && steps.changed-recipes.outputs.changed_recipes != '' }}
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
-        run: >-
-            for built_package in ${{ steps.find-built-objects.outputs.built_objects }}; do
-                echo "Found built package $built_package to upload...";
-                # anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
-                anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} whoami;
-            done
+        # run: >-
+        #     for built_package in ${{ steps.find-built-objects.outputs.built_objects }}; do
+        #         echo "Found built package $built_package to upload...";
+        #         # anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
+        #         anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} whoami;
+        #     done
+        run: |
+          anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} whoami;
