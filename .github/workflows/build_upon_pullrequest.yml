@@ -106,7 +106,6 @@ jobs:
                 fi
               done
             done
-            echo "${packages}"
             echo "built_objects=$(echo ${packages} | xargs)"  >> $GITHUB_OUTPUT
 
       - name: Upload to Anaconda
