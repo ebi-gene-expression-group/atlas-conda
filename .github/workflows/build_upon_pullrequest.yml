@@ -97,7 +97,7 @@ jobs:
         run: |
             subdirs=$(conda config --show | yq '.subdirs' | sed 's/- //' | tr '\n' ' ')
             packages=""
-            for dir in "$subdirs"; do
+            for dir in $( echo $subdirs ); do
               for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
                 recipe=$(basename "$recipe_dir");
                 pkg=$(find "$CONDA_PREFIX/conda-bld/$dir" -name "$recipe-*.bz2" | head -n 1)
