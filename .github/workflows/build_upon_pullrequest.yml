@@ -100,10 +100,13 @@ jobs:
             for dir in $( echo $subdirs ); do
               for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
                 recipe=$(basename "$recipe_dir");
+                echo "  Recipe: $recipe"
                 pkg=$(find "$CONDA_PREFIX/conda-bld/$dir" -name "$recipe-*.bz2" | head -n 1)
+                echo "  Found package: $pkg"
                 if [ -n "$pkg" ]; then
                   packages="$packages $pkg"
                 fi
+                echo "  Packages: $packages"
               done
             done
             echo "built_objects=$(echo $packages | xargs)"  >> $GITHUB_OUTPUT
