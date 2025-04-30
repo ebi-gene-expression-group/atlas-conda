@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
             hashFiles('.github/build-environment.yml') }}
 
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
             miniconda-version: 'latest'
             activate-environment: test
