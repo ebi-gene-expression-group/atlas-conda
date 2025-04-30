@@ -102,7 +102,7 @@ jobs:
                 recipe=$(basename "$recipe_dir");
                 echo "  Recipe: $recipe"
                 ls $CONDA_PREFIX/conda-bld/$dir
-                pkg=$(find "$CONDA_PREFIX/conda-bld/$dir" -name "$recipe-*.bz2" | head -n 1)
+                pkg=$(ls "$CONDA_PREFIX/conda-bld/$dir/$recipe-*.bz2" | head -n 1)
                 echo "  Found package: $pkg"
                 if [ -n "$pkg" ]; then
                   packages="$packages $pkg"
