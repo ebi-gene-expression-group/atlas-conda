@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
       matrix:
-        os: ["self-hosted", "macos-latest"]
+        os: ["ubuntu-latest", "macos-latest"]
     defaults:
       run:
         shell: bash -l {0}
