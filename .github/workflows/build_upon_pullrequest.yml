@@ -86,9 +86,11 @@ jobs:
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
               echo "recipe -$recipe-"
               recipe_in_meta=$(grep -v '{' $recipe/meta.yaml | yq '.package.name')
-              recipe_dir=$(echo $recipe | sed 's+recipes/++' )
-              echo "recipe_dir -$recipe_dir-"
+              echo $?
               echo "recipe_in_meta -$recipe_in_meta-"
+              recipe_dir=$(echo $recipe | sed 's+recipes/++' )
+              echo $?
+              echo "recipe_dir -$recipe_dir-"
               echo "status $status"
               if [[ "$recipe_dir" != "$recipe_in_meta" ]]; then
                 echo "in if"
@@ -97,9 +99,11 @@ jobs:
                 echo "They should be the same."
                 status=1
               fi
+              echo $?
               echo "status $status"
             done
             echo "outside loop status $status"
+            echo $?
             exit $status
 
       - name: Do a test build of modified recipes
