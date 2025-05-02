@@ -55,29 +55,40 @@ jobs:
       - name: List all modified recipes
         id: changed-recipes
         run: |
+            echo "List all modified recipes"
             echo ${{ steps.changed-files.outputs.all_modified_files }}
             changed=$(for file in ${{ steps.changed-files.outputs.all_modified_files }}; do dirname $file; done | sort | uniq | tr '\n' ' ')
+            echo "changed $changed"
             changed_no_noarch=""
             for recipe in $changed; do
+              echo "recipe $recipe"
               noarch=$(grep -v '{' $recipe/meta.yaml | yq '.build.noarch')
+              echo "noarch $noarch"
               if [[ "$noarch" == 'null' ]]; then
                 # if noarch is empty, then this recipe is not no arch and should be built for mac and linux.
                 changed_no_noarch=" $recipe"
               fi
             done
+            echo "changed_no_noarch $changed_no_noarch"
             if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
               echo "Running on macos, setting changed to only those that are not noarch"
               changed=$(echo $changed_no_noarch | xargs) # xarg to remove any trailing spaces.
             fi
+            echo "changed_recipes $changed"
             echo "changed_recipes=$changed" >> $GITHUB_OUTPUT
 
       - name: Check directory matches recipe name
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
+            echo "Check directory matches recipe name"
             status=0
+            echo ${{ steps.changed-recipes.outputs.changed_recipes }}
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
+              echo "recipe $recipe"
               recipe_in_meta=$(grep -v '{' $recipe/meta.yaml | yq '.package.name')
               recipe_dir=$(echo $recipe | sed 's+recipes/++' )
+              echo "recipe_dir $recipe_dir"
+              echo "recipe_in_meta $recipe_in_meta"
               if [[ "$recipe_dir" != "$recipe_in_meta" ]]; then
                 echo "Recipe directory is        : $recipe_dir"
                 echo "Recipe name in meta.yaml is: $recipe_in_meta"
@@ -90,7 +101,12 @@ jobs:
       - name: Do a test build of modified recipes
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
+            echo "Do a test build of modified recipes"
+            echo ${{ steps.changed-recipes.outputs.changed_recipes }}
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do 
+              echo "building conda $recipe"
+              conda build $recipe 
+            done
 
       - name: Derive built objects
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
