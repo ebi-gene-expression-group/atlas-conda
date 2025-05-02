@@ -130,6 +130,8 @@ jobs:
         id: find-built-objects
         run: |
             subdirs=$(conda config --show | yq '.subdirs' | sed 's/- //' | tr '\n' ' ')
+            echo "subdir $subdirs"
+            ls $CONDA_PREFIX/conda-bld/
             packages=""
             for dir in $( echo $subdirs ); do
               for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
