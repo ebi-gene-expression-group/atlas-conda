@@ -82,13 +82,13 @@ jobs:
         run: |
             echo "Check directory matches recipe name"
             status=0
-            echo ${{ steps.changed-recipes.outputs.changed_recipes }}
+            echo "-${{ steps.changed-recipes.outputs.changed_recipes }}-"
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
-              echo "recipe $recipe"
+              echo "recipe -$recipe-"
               recipe_in_meta=$(grep -v '{' $recipe/meta.yaml | yq '.package.name')
               recipe_dir=$(echo $recipe | sed 's+recipes/++' )
-              echo "recipe_dir $recipe_dir"
-              echo "recipe_in_meta $recipe_in_meta"
+              echo "recipe_dir -$recipe_dir-"
+              echo "recipe_in_meta -$recipe_in_meta-"
               echo "status $status"
               if [[ "$recipe_dir" != "$recipe_in_meta" ]]; then
                 echo "in if"
