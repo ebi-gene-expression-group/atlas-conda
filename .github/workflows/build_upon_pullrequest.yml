@@ -138,8 +138,8 @@ jobs:
               for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
                 recipe=$(basename "$recipe_dir");
                 echo "  Recipe: $recipe"
-                ls $CONDA_PREFIX/conda-bld/$dir
-                pkg=$(ls "$CONDA_PREFIX/conda-bld/$dir/$recipe-*.conda" | head -n 1)
+                # ls $CONDA_PREFIX/conda-bld/$dir
+                pkg=$(find "$CONDA_PREFIX/conda-bld/$dir" -name "$recipe-*.conda" | head -n 1)
                 echo "  Found package: $pkg"
                 if [ -n "$pkg" ]; then
                   packages="$packages $pkg"
