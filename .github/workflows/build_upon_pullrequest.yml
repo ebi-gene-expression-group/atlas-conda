@@ -111,7 +111,7 @@ jobs:
             done
             echo "outside loop status $status"
             echo $?
-            exit $status
+            #exit $status
 
       - name: Do a test build of modified recipes
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
