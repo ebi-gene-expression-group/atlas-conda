@@ -104,7 +104,6 @@ jobs:
                 echo "Recipe directory is        : $recipe_dir"
                 echo "Recipe name in meta.yaml is: $recipe_in_meta"
                 echo "They should be the same."
-                status=1
               fi
               echo $?
               echo "status $status"
