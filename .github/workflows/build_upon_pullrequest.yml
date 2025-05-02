@@ -85,8 +85,15 @@ jobs:
             echo "-${{ steps.changed-recipes.outputs.changed_recipes }}-"
             for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
               echo "recipe -$recipe-"
-              recipe_in_meta=$(grep -v '{' $recipe/meta.yaml | yq '.package.name')
-              echo $?
+              #recipe_in_meta=$(grep -v '{' $recipe/meta.yaml | yq '.package.name')
+              grep -v '{' $recipe/meta.yaml > temp_meta.yaml
+              echo "grep $?"
+              if ! recipe_in_meta=$(yq '.package.name' temp_meta.yaml); then
+                echo "Failed to extract package name from $recipe/meta.yaml"
+                status=1
+                continue
+              fi
+              echo "yq $?"
               echo "recipe_in_meta -$recipe_in_meta-"
               recipe_dir=$(echo $recipe | sed 's+recipes/++' )
               echo $?
