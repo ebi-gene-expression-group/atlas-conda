@@ -85,6 +85,7 @@ jobs:
             echo "-$changed_recipes-"
             for recipe in $changed_recipes; do
               echo "recipe -$recipe-"
+              cat $recipe/meta.yaml
               grep -v '{' $recipe/meta.yaml > temp_meta.yaml
               echo "grep $?"
               if ! recipe_in_meta=$(yq '.package.name' temp_meta.yaml); then
