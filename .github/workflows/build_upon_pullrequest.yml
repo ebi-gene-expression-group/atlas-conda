@@ -14,12 +14,12 @@ jobs:
     strategy:
       fail-fast: false #  if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
       matrix:
-        os: ["self-hosted", "macos-latest"]
+        os: ["ubuntu-latest", "macos-latest"]
     defaults:
       run:
         shell: bash -l {0}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
             fetch-depth: 0
 
@@ -30,9 +30,9 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v9.3
+        uses: tj-actions/changed-files@v46
         with:
-            files: 'recipes'
+            files: recipes/**
 
       - name: Cache conda
         uses: actions/cache@v4
@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
             hashFiles('.github/build-environment.yml') }}
 
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
             miniconda-version: 'latest'
             activate-environment: test
@@ -84,35 +84,44 @@ jobs:
                 status=1
               fi
             done
-            exit $status
+            if [[ "$status" != 0 ]]; then
+                exit $status
+            fi
 
       - name: Do a test build of modified recipes
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
-            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do conda build $recipe; done
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do 
+              echo "building conda $recipe"
+              conda build $recipe 
+            done
 
       - name: Derive built objects
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         id: find-built-objects
         run: |
             subdirs=$(conda config --show | yq '.subdirs' | sed 's/- //' | tr '\n' ' ')
+            ls $CONDA_PREFIX/conda-bld/*
             packages=""
-            for dir in $subdirs; do
+            for dir in $( echo $subdirs ); do
               for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
-                recipe=$(basename $recipe_dir);
-                if [ -f $CONDA_PREFIX/conda-bld/$dir/$recipe-*.bz2 ]; then
-                  pkg=$(ls $CONDA_PREFIX/conda-bld/$dir/$recipe-*.bz2 | head -n 1)
-                  packages=$packages" "$pkg
+                recipe=$(basename "$recipe_dir");
+                # ls $CONDA_PREFIX/conda-bld/$dir
+                pkg=$(find "$CONDA_PREFIX/conda-bld/$dir" -name "$recipe-*.conda" | head -n 1)
+                if [ -n "$pkg" ]; then
+                  packages="$packages $pkg"
                 fi
               done
             done
-
             echo "built_objects=$(echo $packages | xargs)"  >> $GITHUB_OUTPUT
 
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master_test' && steps.changed-recipes.outputs.changed_recipes != '' }}
-        run: >-
-            for built_package in ${{ steps.find-built-objects.outputs.built_objects }}; do
-                echo "Found built package $built_package to upload...";
-                # anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
-            done
+        # run: >-
+        #     for built_package in ${{ steps.find-built-objects.outputs.built_objects }}; do
+        #         echo "Found built package $built_package to upload...";
+        #         # anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} upload -u ebi-gene-expression-group $built_package;
+        #         anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} whoami;
+        #     done
+        run: |
+          anaconda -t ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }} whoami;
