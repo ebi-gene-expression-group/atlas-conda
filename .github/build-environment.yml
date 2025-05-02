@@ -2,3 +2,4 @@ name: test
 dependencies:
   - conda-build
   - anaconda-client
+  - conda-verify

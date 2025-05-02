@@ -1,0 +1,27 @@
+name: Check Anaconda Token
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Anaconda CLI
+        run: |
+          pip install anaconda-client
+
+      - name: Check Anaconda Token
+        env:
+          ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN_ATLAS_CONDA }}
+        run: |
+          anaconda -t $ANACONDA_TOKEN whoami
+
