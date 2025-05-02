@@ -80,38 +80,18 @@ jobs:
       - name: Check directory matches recipe name
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         run: |
-            echo "Check directory matches recipe name"
             status=0
-            changed_recipes=$(echo "${{ steps.changed-recipes.outputs.changed_recipes }}" | xargs)
-            echo "-$changed_recipes-"
-            for recipe in $changed_recipes; do
-              echo "recipe -$recipe-"
-              cat $recipe/meta.yaml
-              grep -v '{' $recipe/meta.yaml > temp_meta.yaml
-              echo "grep $?"
-              if ! recipe_in_meta=$(yq '.package.name' temp_meta.yaml); then
-                echo "Failed to extract package name from $recipe/meta.yaml"
-                status=1
-                continue
-              fi
-              echo "yq $?"
-              echo "recipe_in_meta -$recipe_in_meta-"
+            for recipe in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
+              recipe_in_meta=$(grep -v '{' $recipe/meta.yaml | yq '.package.name')
               recipe_dir=$(echo $recipe | sed 's+recipes/++' )
-              echo $?
-              echo "recipe_dir -$recipe_dir-"
-              echo "status $status"
               if [[ "$recipe_dir" != "$recipe_in_meta" ]]; then
-                echo "in if"
                 echo "Recipe directory is        : $recipe_dir"
                 echo "Recipe name in meta.yaml is: $recipe_in_meta"
                 echo "They should be the same."
                 status=1
               fi
-              echo $?
-              echo "status $status"
             done
-            echo "outside loop status $status"
-            echo $?
+            exit $status
             if [[ "$status" != 0 ]]; then
                 exit $status
             fi
@@ -138,7 +118,6 @@ jobs:
               for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
                 recipe=$(basename "$recipe_dir");
                 echo "  Recipe: $recipe"
-                # ls $CONDA_PREFIX/conda-bld/$dir
                 pkg=$(find "$CONDA_PREFIX/conda-bld/$dir" -name "$recipe-*.conda" | head -n 1)
                 echo "  Found package: $pkg"
                 if [ -n "$pkg" ]; then
