@@ -81,7 +81,7 @@ jobs:
         run: |
             echo "Check directory matches recipe name"
             status=0
-            changed_recipes="${{ steps.changed-recipes.outputs.changed_recipes }}"
+            changed_recipes=$(echo "${{ steps.changed-recipes.outputs.changed_recipes }}" | xargs)
             echo "-$changed_recipes-"
             for recipe in $changed_recipes; do
               echo "recipe -$recipe-"
