@@ -1,4 +1,4 @@
-{% set version = "36.5.0" %}
+{% set version = "37.6.0" %}
 
 package:
   name: atlas-web-bulk-cli
@@ -16,19 +16,19 @@ build:
 
 requirements:
   build:
-    - openjdk >=11.0.0.0
-    - gradle >=7.0.0
+    - openjdk >=11,<12
+    - gradle >=7.0,<8
   host:
   run:
     - bash
     - bats
-    - openjdk >=11.0.0.0
+    - openjdk >=11,<12
 
 test:
   commands:
 
 about:
-  home: https://github.com/ebi-gene-expression-group/atlas-cli-bulk
+  home: https://github.com/ebi-gene-expression-group/atlas-web-bulk
   license: Apache-2.0
   summary: A minimal Spring Boot wrapper to run (bulk) Expression Atlas tasks from the command line.
   license_family: Apache
