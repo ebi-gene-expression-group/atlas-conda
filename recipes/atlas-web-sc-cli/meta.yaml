@@ -1,4 +1,4 @@
-{% set version = "15.0.0" %}
+{% set version = "16.0.0" %}
 
 package:
   name: atlas-web-sc-cli
@@ -16,13 +16,13 @@ build:
 
 requirements:
   build:
-    - openjdk=11
-    - gradle=7
+    - openjdk >=11,<12
+    - gradle >=7.0,<8
   host:
   run:
     - bash
     - bats
-    - openjdk=11
+    - openjdk >=11,<12
 
 test:
   commands:
