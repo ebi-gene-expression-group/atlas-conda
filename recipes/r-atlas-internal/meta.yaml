@@ -1,4 +1,4 @@
-{% set version = "1.8" %}
+{% set version = "1.91" %}
 
 package:
   name: r-atlas-internal
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/internal-ExpressionAtlas/archive/{{ version }}.tar.gz
-  sha256: bb89c39d131ef02e7d21c11f17c4dfac4c6ba0c5214131b5103da0ca2633c705
+  sha256: c199832aff77103544a96049d2f3e249b9c8c74f95604aebbd1ccf972f53772f
 
 build:
   number: 0
@@ -25,9 +25,9 @@ requirements:
     - r-xml
     - r-yaml
     - r-plyr
-    - r-base
+    - r-base >=4.5,<4.6.0a0
     - bioconductor-biobase
-    - bioconductor-biocgenerics
+    - bioconductor-biocgenerics >=0.56
     - bioconductor-genomicranges
     - bioconductor-iranges
     - bioconductor-limma
@@ -36,9 +36,9 @@ requirements:
     - r-xml
     - r-yaml
     - r-plyr
-    - r-base
+    - r-base >=4.5,<4.6.0a0
     - bioconductor-biobase
-    - bioconductor-biocgenerics
+    - bioconductor-biocgenerics >=0.56
     - bioconductor-genomicranges
     - bioconductor-iranges
     - bioconductor-limma
