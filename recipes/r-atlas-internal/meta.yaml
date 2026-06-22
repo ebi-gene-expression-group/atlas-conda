@@ -1,4 +1,4 @@
-{% set version = "1.8" %}
+{% set version = "1.9" %}
 
 package:
   name: r-atlas-internal
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ebi-gene-expression-group/internal-ExpressionAtlas/archive/{{ version }}.tar.gz
-  sha256: bb89c39d131ef02e7d21c11f17c4dfac4c6ba0c5214131b5103da0ca2633c705
+  sha256: 4f91b41714b10fec86f85e10cc80c891fc1270f37e07ea4db559121ca4cb9baa
 
 build:
   number: 0
