@@ -25,7 +25,7 @@ requirements:
     - r-xml
     - r-yaml
     - r-plyr
-    - r-base
+    - r-base >=4.6.0
     - bioconductor-biobase
     - bioconductor-biocgenerics
     - bioconductor-genomicranges
@@ -36,7 +36,7 @@ requirements:
     - r-xml
     - r-yaml
     - r-plyr
-    - r-base
+    - r-base >=4.6.0
     - bioconductor-biobase
     - bioconductor-biocgenerics
     - bioconductor-genomicranges
