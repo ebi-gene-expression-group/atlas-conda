@@ -104,21 +104,33 @@ jobs:
       - name: Derive built objects
         if: ${{ steps.changed-recipes.outputs.changed_recipes != '' }}
         id: find-built-objects
+        shell: bash -l {0}
         run: |
-            subdirs=$(conda config --show | yq '.subdirs' | sed 's/- //' | tr '\n' ' ')
-            ls $CONDA_PREFIX/conda-bld/*
-            packages=""
-            for dir in $( echo $subdirs ); do
-              for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
-                recipe=$(basename "$recipe_dir");
-                # ls $CONDA_PREFIX/conda-bld/$dir
-                pkg=$(find "$CONDA_PREFIX/conda-bld/$dir" -name "$recipe-*.conda" | head -n 1)
-                if [ -n "$pkg" ]; then
-                  packages="$packages $pkg"
-                fi
-              done
+          subdirs=$(conda config --show | yq '.subdirs' | sed 's/- //' | tr '\n' ' ')
+          CONDA_BLD_DIR="$CONDA/conda-bld"
+      
+          echo "Looking for built packages in $CONDA_BLD_DIR"
+          find "$CONDA_BLD_DIR" -name "*.conda" -print || true
+      
+          packages=""
+          for dir in $subdirs; do
+            for recipe_dir in ${{ steps.changed-recipes.outputs.changed_recipes }}; do
+              recipe=$(basename "$recipe_dir")
+              pkg=$(find "$CONDA_BLD_DIR/$dir" -name "$recipe-*.conda" 2>/dev/null | head -n 1)
+              if [ -n "$pkg" ]; then
+                packages="$packages $pkg"
+              fi
             done
-            echo "built_objects=$(echo $packages | xargs)"  >> $GITHUB_OUTPUT
+          done
+      
+          packages=$(echo "$packages" | xargs)
+      
+          if [ -z "$packages" ]; then
+            echo "No built conda packages found for changed recipes: ${{ steps.changed-recipes.outputs.changed_recipes }}"
+            exit 1
+          fi
+      
+          echo "built_objects=$packages" >> "$GITHUB_OUTPUT"
 
       - name: Upload to Anaconda
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed-recipes.outputs.changed_recipes != '' }}
